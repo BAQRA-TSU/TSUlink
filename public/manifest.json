@@ -1,0 +1,16 @@
+{
+  "short_name": "SetantaBet",
+  "name": "SetantaBet",
+  "icons": [
+    {
+      "src": "manifest.svg",
+      "sizes": "136.27x51.69 64x64 32x32 24x24 16x16",
+      "type": "image/svg+xml"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "orientation": "portrait"
+}

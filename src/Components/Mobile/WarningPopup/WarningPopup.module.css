@@ -1,0 +1,137 @@
+.popupComponent{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding:  0 16px;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+}
+
+
+.popupContainer{
+    -webkit-animation: fadeIn 0.5s;
+    animation: fadeIn 0.5s;
+    width: 100%;
+    height: max-content;
+    padding: 20px 16px;
+    border-radius: 16px;
+    background:  var(--color-black-200);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@-webkit-keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.popupContainer.fadeOut{
+    animation: fadeOut 0.5s;
+    -webkit-animation: fadeOut 0.5s;
+}
+
+@-webkit-keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.popupContainerIcon{
+    align-self: flex-end;
+}
+
+.innerContainer{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 24px;
+}
+
+.header{
+    text-align: center;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 40px;
+    letter-spacing: -1.5%;
+    text-align: center;
+    background: linear-gradient(89.17deg, #FFFFFF 49.1%, var(--color-grey-op-96) 100.17%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 16px;
+}
+
+
+.text{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: center;
+    color:  var(--color-fg-on-dark-secondary);
+    margin-top: 8px;
+    font-family: "HelveticaRoman";
+}
+
+.submit{
+    width: 100%;
+    height: 48px;
+    border-radius: 36px;
+    background: var(--color-grey-600);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    color: var(--color-black-100);
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 16px;
+    font-family: "HelveticaMedium";
+}
+
+.close{
+    width: 100%;
+    height: 48px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    color: var(--color-grey-600);
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 16px;
+    font-family: "HelveticaMedium";
+}

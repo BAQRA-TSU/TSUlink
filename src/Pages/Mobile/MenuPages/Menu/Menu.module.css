@@ -1,0 +1,276 @@
+.menuWrapper{
+    position: relative;
+    background-color: #0D0D0D;
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px;
+}
+
+.burgerMenuAvatar{
+    width: 48px;
+    height: 48px;
+    border-radius: 274.29px;
+    
+}
+
+.menuHeader{
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius:  24px;
+    background: rgba(28, 28, 28, 0.60);
+    backdrop-filter: blur(10px);
+    gap: 14px;
+    margin-top: 12px;
+}
+
+.menuHeaderTop{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.closeMenu{
+    cursor: pointer;
+    height: 32px;
+}
+
+.name{
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 28px;
+    text-align: left;
+    color:  rgba(255, 255, 255);
+    font-family: "HelveticaMedium";
+}
+
+.id{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+    font-family: "HelveticaRoman";
+    color:  #CCCCCC;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.balanceContainer{
+    width: 100%;
+    padding: 16px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.balanceFirstRow{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 48px;
+}
+
+.balanceFirstRowTitle{
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    font-family: "HelveticaRoman";
+    color:  #CCCCCC;
+}
+
+.balanceSecondRow{
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.moneyAmount{
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 32px;
+    font-family: "HelveticaMedium";
+}
+
+.depositButton{
+    width: 104px;
+    height: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(92.79deg, transparent 8.58%, rgba(141, 215, 97, 0.8) 49.59%, transparent 91.42%);
+    background-color: rgba(60, 156, 4, 1);
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.categoryTitle{
+    margin-top: 36px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    color: #FFFFFF;
+    font-family: "HelveticaMedium";
+}
+
+.categoryContainer{
+    /* padding-left: 12px; */
+    /* border-radius: 16px; */
+    /* background-color: rgba(73, 73, 73, 0.15); */
+    font-family: "HelveticaMedium";
+    gap: 4px;
+    display: flex;
+    flex-direction: column;
+}
+
+.categoryItem{
+    cursor: pointer;
+    border: none;
+    color: #FFFFFF;
+    text-decoration: none;
+    display: flex;
+    height: 68px;
+    gap: 12px;
+    padding: 8px 16px;
+    align-items: center;
+    border-radius: 16px;
+    background: rgba(28, 28, 28, 0.60);
+    width: 100%;
+}
+
+.myGarageItemTitle{
+    color: white;
+    font-size: 16px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    font-weight: 500;
+    line-height: 16px;
+    text-align: left;
+    align-items: center;
+}
+
+.logout{
+    cursor: pointer;
+    height: 56px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+    color: rgba(255, 255, 255);
+    font-family: "HelveticaMedium";
+    width: 100%;
+    height: 48px;
+    border-radius: 16px;
+    background: #9898982B;
+    margin: 24px 0 49px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.verified{
+    margin-left: 50px;
+    color: greenyellow;
+}
+
+.unverified{
+    color: red;
+}
+
+.menuHeaderLeft{
+    display: flex;
+    flex-direction: column;
+}
+
+.disabled{
+    opacity: 30%;
+    pointer-events: none;
+}
+
+.menuHeaderInfo{
+    display: flex;
+    flex-direction: column;
+    border-radius:  16px;
+    background:  #0D0D0D;
+    padding: 0 16px;
+}
+
+.menuHeaderUserInfo{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-grey-op-16);
+}
+
+.balanceFirstRowTop{
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.eyeDiv{
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.avatarDiv{
+    cursor: pointer;
+    position: relative;
+}
+
+.editButton{
+    position: absolute;
+    right: 0;
+}
+
+.language{
+    padding-left: 46px;
+    padding-top: 0px;
+    padding-bottom: 21px;
+    height: 100%;
+    font-family: "HelveticaMedium";
+    font-weight: 500;
+    font-size: 16px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.languageContainer{
+    width: 100%;
+    height: 75px;
+    position: relative;
+    margin-top: 4px;
+}
+
+.flagDiv{
+    position: absolute;
+    top: 20px;
+    left: 14px;
+}
+
+.placeHolder{
+    position: absolute;
+    top: 38px;
+    left: 46px;
+    font-family: "HelveticaRoman";
+    font-weight: 400;
+    font-size: 14px;
+    color: #CCCCCC;
+}
+
+.rightArrow{
+    position: absolute;
+    right: 14px;
+    top: 28px;
+}

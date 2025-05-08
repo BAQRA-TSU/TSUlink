@@ -1,0 +1,140 @@
+.notificationsWrapper {
+    position: relative;
+    background-color: #0D0D0D;
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px;
+    height: 100%;
+}
+
+.notificationsHeader {
+    display: flex;
+    width: 100%;
+    height: 56px;
+    padding: 12px;
+    margin-top: 11px;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 36px;
+    background: rgba(28, 28, 28, 0.60);
+    backdrop-filter: blur(10px);
+}
+
+.notificationsList{
+    height: 100%;
+    width: 100%;
+}
+
+.noNotificationDiv{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    gap: 12px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: -88px;
+}
+
+.filler {
+    width: 32px;
+    height: 32px;
+}
+
+.categoryTitle {
+    margin-top: 28px;
+    margin-bottom: 11px;
+    font-family: "HelveticaMedium";
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 32px;
+    background: linear-gradient(89deg, #FFF 4.32%, var(--color-grey-op-96) 100.17%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.categoryItem {
+    margin-top: 16px;
+    display: flex;
+    padding: 12px 14px;
+    align-items: flex-start;
+    border-radius: 16px;
+    background: rgba(28, 28, 28, 0.60);
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.categoryItem.unread {
+    background:  var(--color-grey-op-48);
+}
+
+.categoryIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 32px;
+    height: 32px;
+    padding: 8px;
+    border-radius: 32px;
+    background:  #242424;
+}
+
+.itemInfo {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.itemTitle {
+    font-family: "HelveticaMedium";
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.itemDescription {
+    font-family: "HelveticaRoman";
+    color: #CCCCCC;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    overflow: hidden;
+    max-height: 32px;
+}
+
+.categoryDescription {
+    color: #CCC;
+    font-family: "HelveticaRoman";
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    margin-bottom: 12px;
+    margin-top: 26px;
+    padding-left: 8px;
+}
+
+.loader{
+    position: absolute;
+}
+
+
+.time{
+    font-family: "HelveticaRoman";
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    text-align: right;
+    color: rgba(204, 204, 204, 0.5);
+    min-width: 52px;
+}
+
+.unreadIcon{
+    min-width: 4px;
+    min-height: 4px;
+    border-radius: 2px;
+    background:  rgba(255, 209, 6, 1);
+}

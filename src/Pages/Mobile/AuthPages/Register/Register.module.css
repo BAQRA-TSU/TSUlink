@@ -1,0 +1,257 @@
+.registerWrapper{
+    z-index: 10;
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px;
+    align-items: center;
+    /* background-image: url(../../../../assets/images/login/background.png); */
+    background-size: cover;
+    scrollbar-width: none;
+}
+
+select:-webkit-autofill,
+select:-webkit-autofill:focus {
+  -webkit-transition: background-color 0.2s 600000s, color 0.2s 600000s !important;
+  transition: background-color 0.2s 600000s, color 0.2s 600000s !important;
+}
+
+.aviatorLogo{
+    display: block;
+    background-image: url(../../../../assets/images/login/aviatorLogo.svg);
+    width: 155px;
+    height: 40px;
+}
+
+.inputs{
+    display: flex;
+    gap: 8px;
+    margin-top: -10px;
+    max-width: 344px;
+}
+
+.switchContainer{
+    width: 345px;
+    height: 40px;
+    padding: 4px;
+    gap: 8px;
+    border-radius: 48px;
+    background: rgba(73, 73, 73, 0.45);
+    display: flex;
+    margin-top: 16px;
+
+}
+
+.inputContainer{
+    position: relative;
+    margin-top: 16px;
+}
+
+.floatingLabel{
+    position: absolute;
+    color: rgba(255, 255, 255, 0.5);
+    transition: 0.2s ease all;
+    pointer-events: none;
+    z-index: 2;
+    font-family: "HelveticaRoman";
+}
+
+.input:focus ~ .floatingLabel,
+.input:valid ~ .floatingLabel{
+    top: 7px;
+    left: 17px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    font-family: "HelveticaMedium";
+}
+
+
+.input:not(:focus):valid ~ .floatingLabel{
+    display: none;
+ }
+
+.input:not(:focus):valid {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.input[value=""]:not(:focus){
+    padding: 24px 16px 12px 16px;
+}
+
+.input[value=""]:not(:focus) ~ .floatingLabel{
+    left: 17px;
+    top: 17px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    display: block;
+}
+
+
+.input{
+    position: relative;
+    z-index: 2;
+    width: 344px;
+    height: 56px;
+    padding: 24px 16px 12px 16px;
+    border-radius: 16px;
+    border: 0.5px solid transparent;
+    transition: 0.2s ease all;
+    background: rgba(25, 25, 25, 1);
+    color: var(--color-fg-on-dark-secondary);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    font-family: "HelveticaRoman";
+}
+
+.birthDate{
+    display: flex;
+    justify-content: space-between;
+}
+
+.input.nonResident{
+    width: 110px;
+}
+
+.input.birthYear{
+    padding: 12px 16px 12px 16px;
+}
+
+.input:focus{
+    border-image-slice: 1;
+    background-color: rgba(39, 39, 39, 1);
+    border-image-source: linear-gradient(92.79deg, transparent 20%, rgba(255, 255, 255, 0.5) 50%, text-decoration 100%);
+    background-image: url();
+}
+
+.registerButton{
+    width: 345px;
+    height: 48px;
+    padding: 8px 16px;
+    border-radius: 48px;
+    background: var(--color-grey-600);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    color: var(--color-black-100);
+    margin-top: 24px;
+    font-family: "HelveticaMedium";
+    border: none;
+}
+
+.registerButton.disabled{
+    background:  var(--color-black-300);
+    color: var(--color-grey-alpha-20);
+    border: 0;
+    pointer-events: none;
+}
+
+.error {
+    margin-top: 8px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    text-align: left;
+    color:  rgba(255, 168, 168, 1);
+}
+
+
+.headerContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 7px;
+    margin-top: 12px;
+    display: flex;
+    height:  56px;
+    padding: 12px;
+    border-radius: 36px;
+    background: rgba(28, 28, 28, 0.60);
+    backdrop-filter: blur(10px);
+}
+
+
+.codeInput{
+    width: 79px;
+    height: 56px;
+    padding: 8px;
+    border-radius: 16px;
+    border: none;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: left;
+    color: var(--color-fg-on-dark-secondary);
+    background: rgba(25, 25, 25, 1);
+    font-family: "HelveticaRoman";
+}
+
+.codeDiv{
+    position: relative;
+    margin-top: 16px;
+}
+
+.plus{
+    position: absolute;
+    top: 17px;
+    left: 16px;
+    color: var(--color-fg-on-dark-secondary);
+}
+
+
+.background{
+    max-width: 344px;
+    border-radius: 16px;
+    display: none;
+    height: 56px;
+    width: 100%;
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    background:  linear-gradient(257.92deg, #FF443B 20%, #FFCDCB 80%);
+    padding: 1px;
+    box-sizing: content-box;
+}
+
+.background.nonResident{
+    max-width: 110px;
+}
+
+.inputError{
+    display: block;
+    color: rgba(255, 117, 117, 1);
+}
+
+.outerErrorDiv{
+    display: none;
+    max-width: 344px;
+    width: 100%;
+    height: max-content;
+    padding: 12px 8px;
+    border-radius: 12px;
+    background: rgba(245, 65, 65, 1);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: 24px;
+}
+
+.outerErrorDiv.active{
+    display: block;
+}
+
+.form{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

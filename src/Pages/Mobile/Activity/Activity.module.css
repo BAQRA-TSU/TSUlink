@@ -1,0 +1,11 @@
+.activityContainer{
+    display: flex;
+    width: 100%;
+    position: relative;
+    flex-direction: column;
+    /* margin-bottom: 59px; */
+    margin-top: 64px;
+    overflow-y: scroll !important;
+    height: calc(100vh - 64px);
+    scrollbar-width: none;
+}

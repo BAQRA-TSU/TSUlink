@@ -24,7 +24,7 @@
     --color-grey-alpha-20: rgba(255, 255, 255, 0.2);
 
     --color-grey-op-15: rgba(73, 73, 73, 0.15);
-    --color-grey-op-16: rgba(73, 73, 73, 0.16);
+    --color-grey-op-16: #49494929;
     --color-grey-op-32: rgba(73, 73, 73, 0.32);
     --color-grey-op-48: rgba(73, 73, 73, 0.48);
     --color-grey-op-96: rgba(73, 73, 73, 0.96);

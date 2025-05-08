@@ -1,0 +1,94 @@
+.footer {
+    display: flex;
+    height:  59px;
+    padding: 8px 16px 8px 16px;
+    gap: 0px;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    z-index: 9;
+    width: 100%;
+    bottom: 0;
+    background: rgba(24, 24, 24, 0.80);
+    box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(16px);
+    /* border: 0.5px solid; */
+    /* border-image-slice: 1; */
+    /* border-image-source: linear-gradient(90deg, transparent 20%, #ffffff40 50%, transparent 80%); */
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.homeComponent{
+    cursor: pointer;
+    width: 40px;
+    height: 43px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.title{
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 16px;
+    text-align: center;
+    color: var(--color-fg-on-dark-secondary);
+    font-family: "HelveticaRoman";
+}
+
+.balanceComponent{
+    width: 128px;
+    height: 40px;
+    padding: 8px;
+    border-radius: 32px;
+    background-color: rgba(152, 152, 152, 0.15);
+    border: 0.5px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(90deg, transparent 20%, rgba(255, 255, 255, 0.20) 50%, transparent 80%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    color: white;
+}
+
+.balanceNum{
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16px;
+    text-align: center;
+    width: 100%;
+}
+
+
+.signIn{
+    width: 79px;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 48px;
+    border: 1px solid;
+    background: rgba(60, 156, 4, 1);
+    border-image-slice: 1;
+    border-image-source: linear-gradient(92.79deg, transparent 20%, rgba(141, 215, 97, 0.8) 50%, transparent 80%);
+    font-size: 14px;
+    font-weight: 590;
+    line-height: 20px;
+    color: rgba(255, 255, 255);
+    text-decoration: none; 
+}
+
+.active{
+    font-family: "HelveticaMedium";
+    color: rgb(255, 255, 255);
+}
+
+
+.disabled{
+    opacity: 10%;
+    pointer-events: none
+}

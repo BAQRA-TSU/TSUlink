@@ -4,8 +4,6 @@ import { UserContext } from "../../../../../Services/userContext";
 import { useTranslation } from "react-i18next";
 import { ClockClose, TransactionsIcon } from "../../../../../assets/svg/svg";
 import PropTypes from "prop-types";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import Loader from "../../../../../assets/images/loader-setanta.json"
 import { getLoyaltyTransactions } from "../../../../../Services/common";
 import { useNotificationPopup } from "../../../../../Services/notificationPopupProvider";
 
@@ -179,12 +177,7 @@ const History = ({ setFilterByDate, setIsDatePopupVisible }) => {
           :
           <div className={styles.noResultContainer}>
             {historyLoading ?
-              <DotLottieReact
-                data={Loader}
-                loop={true}
-                autoplay={true}
-                className={styles.loader}
-              />
+              <>...</>
               :
               <>
                 <div className={styles.noData}>

@@ -5,8 +5,6 @@ import { BackIcon, BonusNotification, MailNoIcon, SystemNotification } from '../
 import { useTranslation } from 'react-i18next';
 import MobileHeaderLogo from '../../../../Components/Mobile/MobilHeaderLogo/MobileHeaderLogo';
 import {getNotifications, openOneNotification, readNotifications} from '../../../../Services/common'
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import Loader from "../../../../assets/images/loader-setanta.json"
 import { useNotificationPopup } from '../../../../Services/notificationPopupProvider';
 import { UserContext } from '../../../../Services/userContext';
 
@@ -145,12 +143,7 @@ const Notifications = () => {
                     :
                     <div className={styles.noNotificationDiv}>
                         {notificationsLoading ?
-                            <DotLottieReact
-                                data={Loader}
-                                loop={true}
-                                autoplay={true}
-                                className={styles.loader}
-                            />
+                            <>...</>
                         :	
                             <>
                                 <MailNoIcon />

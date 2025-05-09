@@ -938,8 +938,8 @@ export const getAccountLogins = async (retried = false) => {
     }
 }
 
-export const postSignin = async (username, password, code) => {
-    return await PostSignIn(username, password, code)
+export const postSignin = async (username, password) => {
+    return await PostSignIn(username, password)
         .then((resp) => {
             return resp.data;
         })

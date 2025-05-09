@@ -1,384 +1,326 @@
-import styles from "./Register.module.css";
-import { useEffect, useRef, useState } from "react";
-import { useFormik, Form, FormikProvider } from "formik";
-import * as Yup from "yup";
-import { isValidPhoneNumber }  from 'libphonenumber-js'
-import { useTranslation } from "react-i18next";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import styles from './Register.module.css';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { useFormik, Form, FormikProvider } from 'formik';
+import * as Yup from 'yup';
 
-import { isLogedIn } from "../../../../Services/common";
-import Switch from "../../../../Components/Mobile/Switch/Switch";
-import Input from "../../../../Components/Mobile/Input/Input";
-import { CloseCircleIcon } from "../../../../assets/svg/svg";
-import { PostSendCode } from "../../../../Services/service";
-import MobileHeaderLogo from "../../../../Components/Mobile/MobilHeaderLogo/MobileHeaderLogo";
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { isLogedIn, SetAccessToken, SetRefreshToken } from '../../../../Services/common';
+import Input from '../../../../Components/Mobile/Input/Input';
+import { BackIcon, EyeIcon, EyeOffIcon, NotValidIcon, ValidIcon } from '../../../../assets/svg/svg';
+import { PostRegister } from '../../../../Services/service';
+import { UserContext } from '../../../../Services/userContext';
+import { Trans, useTranslation } from 'react-i18next';
+import WarningPopup from '../../../../Components/Mobile/WarningPopup/WarningPopup';
+import { useNotificationPopup } from '../../../../Services/notificationPopupProvider';
+import Popup from '../../../../Components/Mobile/Popup/Popup';
+import Switch from '../../../../Components/Mobile/Switch/Switch';
 
 const Register = () => {
-    const [t] = useTranslation();
-    const history = useNavigate();
-    const location = useLocation();
-    let yupError = location.state;
-    const [yearList, setYearList] = useState([]);
-    const [monthList, setMonthList] = useState([]);
-    const [dayList, setDayList] = useState([]);
-    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const yearNow = new Date().getFullYear();
-    const errorRef = useRef();
-    const personalIdRef = useRef();
-    const mothRef = useRef();
-    const numberRef = useRef();
-    const [isNumberError, setIsNumberError] = useState(yupError && Object.keys(yupError).includes("number") ? true : false)
-    const [isIdError, setIsIdError] = useState(yupError && Object.keys(yupError).includes("personalId") ? true : false)
-    const [isError, setIsError] = useState();
-    
-    const RegisterSchema = Yup.object().shape({
-        country: Yup.string().required(t("country.required")),
-        personalId: Yup.string().test("test-num", t("id.min.char"), (val) => {return validateId(val)}).required(t("id.required")),
-        birthYear: Yup.number().required(t("birth.required")),
-        // birthMonth: Yup.string().required(t("birth.required")),
-        // birthDay: Yup.number().required(t("birth.required")),
-        number: Yup.number().test("test-num",t("num.invalid"),validateNumber).required(t("num.required")),
+  const [t, i18n] = useTranslation();
+  const history = useNavigate();
+  const location = useLocation();
+  const passwordRef = useRef();
+  const passwordRepeatRef = useRef();
+  const [showPopup, setShowPopup] = useState();
+  const [hidePssword, setHidePssword] = useState(true);
+  const [hidePsswordRepeat, setHidePsswordRepeat] = useState(true);
+  const [isSpecValid, setIsSpecValid] = useState(false);
+  const [isUppercaseValid, setUppercaseValid] = useState(false);
+  const [isNumValid, setIsNumValid] = useState(false);
+  const [isMinValid, setIsMinValid] = useState(false);
+  const [isTermsVisible, setIsTermsVisible] = useState(false);
+  const { setChangeUser } = useContext(UserContext);
+  const { setWallet } = useContext(UserContext);
+  const { showSnackNotificationPopup } = useNotificationPopup();
+  const checkRef1 = useRef();
+  const checkRef2 = useRef();
+
+  function showPassword(state, isShow, ref) {
+    if (!isShow) {
+      state(true);
+      ref.current.type = 'password';
+    } else {
+      state(false);
+      ref.current.type = 'text';
+    }
+  }
+
+  useEffect(() => {
+    if (!location.state) {
+      history('/register');
+    }
+  }, []);
+  const id = location.state ? location.state.id : '';
+  const country = location.state ? location.state.country : '';
+  let registerSchema;
+  if (country == 'GE') {
+    registerSchema = Yup.object().shape({
+      username: Yup.string()
+        .min(6, t('must.be.longer.then.6'))
+        .max(30, t('must.be.shorter.then.30'))
+        .required(t('username.required')),
+      password: Yup.string().required(t('password.required')),
+      passwordRepeat: Yup.string()
+        .equals([Yup.ref('password')], t('passwords.not.match'))
+        .required(t('password.repeat.required')),
     });
-
-    useEffect(() => {
-        if (isLogedIn()) {
-            history("/");
-        }
-    }, [history]);
-
-    const formik = useFormik({
-        initialValues: {
-            country: "GE",
-            personalId: "",
-            birthYear: "",
-            birthMonth: "",
-            birthDay: "",
-            number: "",
-            numberCode: "+995"
-        },
-        validationSchema: RegisterSchema,
-        validateOnBlur: true,
-        validateOnChange: true,
-        validateOnMount: false,
-        onSubmit: (data) => {
-            PostSendCode(data.numberCode + data.number)
-                .then((resp) => {
-                    if (!resp.data.accountExists) {
-                        history('/register/code',{state:data});
-                    }
-                })
-                .catch((error) => {
-                    const yupErrors = {};
-                    if(error.response && error.response.data.message === "ATTEMPTS_EXCEEDED") {
-                        yupErrors.number = t("attempts.exceeded");
-                    }
-                    if(error.response && error.response.status === 409){
-                        yupErrors.number = t("number.exists");
-                    }
-                    if (yupErrors != null) {
-                        formik.setErrors(yupErrors);
-                    }
-                })
-        },
+  } else {
+    registerSchema = Yup.object().shape({
+      username: Yup.string()
+        .min(6, t('must.be.longer.then.6'))
+        .max(30, t('must.be.shorter.then.30'))
+        .required(t('username.required')),
+      password: Yup.string().required(t('password.required')),
+      passwordRepeat: Yup.string()
+        .equals([Yup.ref('password')], t('passwords.not.match'))
+        .required(t('password.repeat.required')),
     });
+  }
 
-    const { errors, touched, setFieldValue,/*isSubmitting,*/ handleSubmit } = formik;
+  // const [signIn] = useMutation(SIGN_IN_MUTATION);
 
-    function AdjustDays(e) {
-        e.preventDefault()
-        const { value } = e.target;
-        setFieldValue("birthMonth", value);
-        setFieldValue("birthDay", 1);
-        var year = formik.values.birthYear;
-        var month = parseInt(value) + 1;
-        var days = new Date(year, month, 0).getDate();
-        setDayList([]);
-        for (let index = 1; index <= days; index++) {
-            setDayList(prevDayList => ([
-                ...prevDayList,
-                <option key={index} value={index}>{index}</option>
-            ]));
-        }
+  useEffect(() => {
+    if (isLogedIn()) {
+      history('/');
     }
-    function validateId(val) {
-        if (val) {
-            if (formik.values.country === "GE") {
-                if (val.length >= 11) {
-                    return true;
-                }
-                return false
-            }
-        }
-        return true
-    }
+  }, [history]);
 
-    function validateNumber() {
-        if (!(document.activeElement === numberRef.current)) {
-            if (formik.values.number && !isValidPhoneNumber(formik.values.numberCode + formik.values.number) ) { 
-                return false;
-            }
-            return true;
-        }
-        return true;
-    }
-    
-    useEffect(() => {
-        if (isIdError || isNumberError) {
-            setIsError(true);
-            formik.setErrors(yupError);
-            errorRef.current.innerHTML = Object.values(yupError)[0];
-            window.history.replaceState({}, '')
-        }
-    },[])
+  useEffect(() => {
+    const passwordElement = passwordRef.current;
+    const handleEvent = (event) => {
+      const val = event.target.value;
+      val.length >= 8 ? setIsMinValid(true) : setIsMinValid(false);
+      val.match(/[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ ]/) !== null ? setIsSpecValid(true) : setIsSpecValid(false);
+      val.match(/[A-Z]/) !== null && val.match(/[a-z]/) !== null ? setUppercaseValid(true) : setUppercaseValid(false);
+      val.match(/\d+/) !== null ? setIsNumValid(true) : setIsNumValid(false);
+    };
+    passwordElement.addEventListener('keyup', handleEvent);
+    return () => passwordElement.removeEventListener('keyup', handleEvent);
+  }, []);
 
-    useEffect(() => { 
-        if (formik.values.personalId || formik.values.number) {
-            setIsError(false);
-            setIsIdError(false);
-            setIsNumberError(false)
-        }
-    }, [formik.values])
-
-    useEffect(() => {
-        if (formik.values.country === "GE") {
-            setYearList([]);
-            for (let index = yearNow-25; index > yearNow - 100; index--) {
-                setYearList(prevYearList => ([
-                    ...prevYearList,
-                    <option key={index} value={index}>{index}</option>
-                ]));
-            }
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+      passwordRepeat: '',
+    },
+    validationSchema: registerSchema,
+    validateOnBlur: true,
+    validateOnChange: true,
+    onSubmit: (data) => {
+      if (isMinValid && isSpecValid && isUppercaseValid && isNumValid) {
+        if (checkRef2.current.checked) {
+          console.log(data);
+          PostRegister(data.username, data.password)
+            .then((resp) => {
+              const { access_token, refresh_token } = resp.data;
+              showSnackNotificationPopup({ status: 'COMPLETED', text: t('account.created') });
+              SetRefreshToken(refresh_token);
+              SetAccessToken(access_token);
+              setChangeUser(true);
+              setWallet(null);
+              history('/');
+            })
+            .catch((error) => {
+              const yupErrors = {};
+              switch (error.response && error.response.status) {
+                case 400:
+                  yupErrors.password = t('password.not.strong');
+                  break;
+                case 409:
+                  yupErrors.username = t('username.exists');
+                  break;
+                case 401:
+                  showSnackNotificationPopup({ status: 'FAILED', text: t('account.session.expired') });
+                  history('/register');
+                  break;
+                default:
+                  break;
+              }
+              if (yupErrors != null) {
+                formik.setErrors(yupErrors);
+              }
+            })
+            .finally(() => {
+              setSubmitting(false);
+            });
         } else {
-            setYearList([]);
-            setMonthList([]);
-            setDayList([]);
-            setFieldValue("birthDay", 1);
-            setFieldValue("birthMonth", 0);
-            setFieldValue("birthYear", yearNow);
-            formik.values.personalId = ""
-            formik.setTouched({...formik.touched, ["personalId"]: false });
-            for (let index = yearNow-18; index > yearNow - 100; index--) {
-                setYearList(prevYearList => ([
-                    ...prevYearList,
-                    <option key={index} value={index}>{index}</option>
-                ]));
-            }
-            for (let index = 0; index < monthNames.length; index++) {
-                setMonthList(prevMonthList => ([
-                    ...prevMonthList,
-                    <option key={index} value={index}>{monthNames[index]}</option>
-                ]));
-            }
-            var year = yearNow;
-            var month = parseInt(0) + 1;
-            var days = new Date(year, month, 0).getDate();
-            for (let index = 1; index <= days; index++) {
-                setDayList(prevDayList => ([
-                    ...prevDayList,
-                    <option key={index} value={index}>{index}</option>
-                ]));
-            }
+          setSubmitting(false);
+          if (!checkRef2.current.checked) {
+            checkRef2.current.style.border = '1.5px solid rgba(220, 61, 67, 1)';
+          }
         }
-    }, [formik.values.country])
+      } else {
+        setSubmitting(false);
+        const yupErrors = {};
+        yupErrors.password = t('password.not.strong');
+        yupErrors.passwordRepeat = t('password.not.strong');
+        formik.setErrors(yupErrors);
+      }
+    },
+  });
 
-    return (
-        <div className={styles.registerWrapper}>
-            <div className={styles.headerContainer}>
-                <MobileHeaderLogo/>
-                <NavLink to={"/"}><CloseCircleIcon/></NavLink>
-            </div>
-            <Switch
-                names={[t("signIn"), t("create.account")]}
-                links={["/login", "/register"]}
-                actives={[false, true]}
-            ></Switch>
-            <FormikProvider value={formik}>
-                <div className={styles.form}>
-                    <Form onSubmit={handleSubmit}>
-                        <div className={styles.inputContainer}>
-                            {/* <select></select> */}
-                            <select
-                                className={styles.input + (errors.country && touched.country ? " " + styles.inputError : "")}
-                                value={formik.values.country}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                list="countris"
-                                name="country"
-                                id="country"
-                                autoComplete="off"
-                            >
-                                <option value="GE" label="Georgia">Georgia</option>
-                                <option value="AM" label="Armenia">Armenia</option>
-                                <option value="US" label="United States">United States</option>
-                                <option value="KP" label="North Korea">North Korea</option>
-                                {/* <option value="TUR" label="Turkey">Turkey</option> */}
-                                {/* <option value="TUR" label="Turkey">Turkey</option>
-                                <option value="DEU" label="German">Germany</option> */}
-                            </select>
-                            <p className={styles.error}>
-                                {errors.country &&
-                                    touched.country &&
-                                    errors.country}
-                            </p>
-                            <span className={styles.floatingLabel}>
-                                Country
-                            </span>
-                        </div>
-                        {formik.values.country === "GE" ? 
-                            <div className={styles.inputContainer}>
-                                <select
-                                    className={styles.input + " " + styles.birthYear + (errors.birthYear && touched.birthYear ? " " + styles.inputError : "")}
-                                    value={formik.values.birthYear}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    type="number"
-                                    name="birthYear"
-                                    id="birthYear"
-                                    autoComplete="off"> <option value="">{t("birth.year")}</option> {yearList}</select>
-                                <div className={styles.background + (errors.birthYear && touched.birthYear? " " + styles.inputError: "" )}></div>
-                                <p className={styles.error}>
-                                    {errors.birthYear &&
-                                        touched.birthYear &&
-                                        errors.birthYear}
-                                </p>
-                            </div>
-                        :
-                            <div className={styles.birthDate}>
-                                <div className={styles.inputContainer}>
-                                    <select
-                                        className={styles.input + " " + styles.birthYear + " " + styles.nonResident + (errors.birthYear && touched.birthYear ? " " + styles.inputError : "")}
-                                        value={formik.values.birthYear}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        type="number"
-                                        name="birthYear"
-                                        id="birthYear"
-                                        autoComplete="off"> {yearList}</select>
-                                    <div className={styles.background+ " " + styles.nonResident + (errors.birthYear && touched.birthYear? " " + styles.inputError: "" )}></div>
-                                    <p className={styles.error}>
-                                        {errors.birthYear &&
-                                            touched.birthYear &&
-                                            errors.birthYear}
-                                    </p>
-                                </div>
-                                <div className={styles.inputContainer}>
-                                    <select
-                                        ref={mothRef}
-                                        className={styles.input + " " + styles.birthYear + " " + styles.nonResident + (errors.birthMonth && touched.birthMonth ? " " + styles.inputError : "")}
-                                        value={formik.values.birthMonth}
-                                        onChange={e => AdjustDays(e)}
-                                        onBlur={formik.handleBlur}
-                                        type="number"
-                                        name="birthMonth"
-                                        id="birthMonth"
-                                        autoComplete="off"> {monthList}</select>
-                                    <div className={styles.background+ " " + styles.nonResident + (errors.birthMonth && touched.birthMonth? " " + styles.inputError: "" )}></div>
-                                    <p className={styles.error}>
-                                        {errors.birthMonth &&
-                                            touched.birthMonth &&
-                                            errors.birthMonth}
-                                    </p>
-                                </div>
-                                <div className={styles.inputContainer}>
-                                    <select
-                                        className={styles.input + " " + styles.birthYear + " " + styles.nonResident + (errors.birthDay && touched.birthDay ? " " + styles.inputError : "")}
-                                        value={formik.values.birthDay}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        type="number"
-                                        name="birthDay"
-                                        id="birthDay"
-                                        autoComplete="off"> {dayList}</select>
-                                    <div className={styles.background+ " " + styles.nonResident + (errors.birthDay && touched.birthDay? " " + styles.inputError: "" )}></div>
-                                    <p className={styles.error}>
-                                        {errors.birthDay &&
-                                            touched.birthDay &&
-                                            errors.birthDay}
-                                    </p>
-                                </div>
-                            </div>
-                        }
-                        <Input
-                            type="text"
-                            id="personalId"
-                            name="personalId"
-                            maxlength={formik.values.country === "GE"? 11 : ""}
-                            value={formik.values.personalId}
-                            onChange={formik.values.country === "GE" ? e => {
-                                e.preventDefault();
-                                const { value } = e.target;
-                                const regex = /^(0*[0-9][0-9]*(\[0-9]*)?|0*\[0-9]*[1-9][0-9]*)$/;
-                                if ( regex.test(value.toString()) || value === "" ) {
-                                  setFieldValue("personalId", value);
-                                }
-                            } : e => {
-                                e.preventDefault();
-                                const { value } = e.target;
-                                const regex = /^[a-zA-Z0-9_-]*$/;
-                                if ( regex.test(value.toString()) || value === "" ) {
-                                  setFieldValue("personalId", value);
-                                }
-                            } }
-                            ref={personalIdRef}
-                            onBlur={formik.handleBlur}
-                            className={styles.input}
-                            error={errors.personalId}
-                            touched={touched.personalId}
-                            floatingLabel={formik.values.country === "GE" ? t("id"): t("passport.number")}
-                            autoComplete={"off"}
-                            isError={isIdError}
-                        />
-                        <div className={styles.inputs}>
-                            <div className={styles.codeDiv}>
-                                <select
-                                    className={styles.codeInput}
-                                    value={formik.values.numberCode}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    name="numberCode"
-                                    id="numberCode"
-                                    autoComplete="off"
-                                >
-                                    <option value="+995" label="+995">+995</option>
-                                    <option value="+90" label="+90">+90</option>
-                                    <option value="+374" label="+374">+374</option>
-                                    <option value="+49" label="+49">+49</option>
-                                </select>
-                                {/* <input onChange={(input) => codeChange(input)} className={styles.codeInput} type="number"></input> */}
-                            </div>
-                            <Input
-                                type="text"
-                                id="number"
-                                name="number"
-                                value={formik.values.number}
-                                onChange={e => {
-                                    e.preventDefault()
-                                    const { value } = e.target;
-                                    const regex = /^(0*[1-9][0-9]*(\[0-9]*)?|0*\[0-9]*[1-9][0-9]*)$/;
-                                    if ( regex.test(value.toString()) || value === "" ) {
-                                      setFieldValue("number", value);
-                                    }
-                                }}
-                                onBlur={formik.handleBlur}
-                                className={styles.input}
-                                error={errors.number}
-                                ref={numberRef}
-                                touched={touched.number}
-                                floatingLabel={t("phone.number")}
-                                autoComplete={"off"}
-                                isError={isNumberError}
-                            />
-                            <select style={{display: "none"}}></select>
-                        </div>
-                        <button className={styles.registerButton /*+ " " +(isAllFilled? "": styles.disabled)*/} type="submit">
-                            {t("create.account")}
-                        </button>
-                    </Form>
-                </div>
-            </FormikProvider>
-            <div ref={errorRef} className={styles.outerErrorDiv + " " +  (isError? styles.active : "") }></div>
+  // useEffect(() => {
+  //     setIsAllFilled(true)
+  //     for (let index = 0; index < Object.values(formik.values).length; index++) {
+  //         const element = Object.values(formik.values)[index];
+  //         if (element.length === 0) {
+  //             setIsAllFilled(false);
+  //         }
+  //     }
+
+  // }, [formik.values])
+
+  const { errors, touched, setFieldValue, isSubmitting, setSubmitting, handleSubmit } = formik;
+
+  return (
+    <>
+      <div className={styles.registerWrapper}>
+        <div className={styles.headerContainer}>
+          <span className={styles.aviatorLogo}>TSUlink</span>
         </div>
-    );
+        <div className={styles.switch}>
+          <Switch
+            names={[t('signIn'), t('create.account')]}
+            links={['/login', '/register']}
+            actives={[false, true]}
+          ></Switch>
+        </div>
+        <FormikProvider validateOnBlur value={formik}>
+          <div className={styles.form}>
+            <Form onSubmit={handleSubmit}>
+              <Input
+                className={styles.input}
+                type={'text'}
+                name={'username'}
+                value={formik.values.username}
+                onChange={(e) => {
+                  e.preventDefault();
+                  const { value } = e.target;
+                  const regex = /^[a-zA-Z][a-zA-Z0-9_]*$/;
+                  if (regex.test(value.toString()) || value === '') {
+                    setFieldValue('username', value);
+                  }
+                }}
+                onBlur={formik.handleBlur}
+                id={'username'}
+                error={errors.username}
+                touched={touched.username}
+                floatingLabel={t('username')}
+                autoComplete={'off'}
+              />
+              <div className={styles.inputContainer}>
+                <Input
+                  type={'password'}
+                  name={'password'}
+                  ref={passwordRef}
+                  value={formik.values.password}
+                  onChange={(e) => {
+                    e.preventDefault();
+                    const { value } = e.target;
+                    var regex = /^\S*$/;
+                    if (regex.test(value.toString()) || value === '') {
+                      setFieldValue('password', value);
+                    }
+                  }}
+                  onBlur={formik.handleBlur}
+                  id={'password'}
+                  error={errors.password}
+                  touched={touched.password}
+                  floatingLabel={t('password')}
+                  autoComplete={'off'}
+                />
+                <span
+                  onClick={() => {
+                    showPassword(setHidePssword, hidePssword, passwordRef);
+                  }}
+                  className={styles.eyeIcon}
+                >
+                  {hidePssword ? (
+                    <EyeOffIcon color={'var(--color-grey-500)'} />
+                  ) : (
+                    <EyeIcon color={'var(--color-grey-500)'} />
+                  )}
+                </span>
+              </div>
+              <div className={styles.validationContainer}>
+                <div className={styles.validation}>
+                  <span className={styles.validationIcon}>{isMinValid ? <ValidIcon /> : <NotValidIcon />}</span>
+                  <p className={styles.validationText}>{t('password.min.8.char')} </p>
+                </div>
+                <div className={styles.validation}>
+                  <span className={styles.validationIcon}>{isUppercaseValid ? <ValidIcon /> : <NotValidIcon />}</span>
+                  <p className={styles.validationText}>{t('password.eng.char')}</p>
+                </div>
+                <div className={styles.validation}>
+                  <span className={styles.validationIcon}>{isNumValid ? <ValidIcon /> : <NotValidIcon />}</span>
+                  <p className={styles.validationText}>{t('password.must.num')}</p>
+                </div>
+                <div className={styles.validation}>
+                  <span className={styles.validationIcon}>{isSpecValid ? <ValidIcon /> : <NotValidIcon />}</span>
+                  <p className={styles.validationText}>{t('password.must.special.symbol')}</p>
+                </div>
+              </div>
+
+              <div className={styles.inputContainer}>
+                <Input
+                  type={'password'}
+                  name={'passwordRepeat'}
+                  ref={passwordRepeatRef}
+                  value={formik.values.passwordRepeat}
+                  onChange={(e) => {
+                    e.preventDefault();
+                    const { value } = e.target;
+                    var regex = /^\S*$/;
+                    if (regex.test(value.toString()) || value === '') {
+                      setFieldValue('passwordRepeat', value);
+                    }
+                  }}
+                  onBlur={formik.handleBlur}
+                  id={'passwordRepeat'}
+                  error={errors.passwordRepeat}
+                  touched={touched.passwordRepeat}
+                  floatingLabel={t('repeat.password')}
+                  autoComplete={'off'}
+                />
+                <span
+                  onClick={() => {
+                    showPassword(setHidePsswordRepeat, hidePsswordRepeat, passwordRepeatRef);
+                  }}
+                  className={styles.eyeIcon}
+                >
+                  {hidePsswordRepeat ? (
+                    <EyeOffIcon color={'var(--color-grey-500)'} />
+                  ) : (
+                    <EyeIcon color={'var(--color-grey-500)'} />
+                  )}
+                </span>
+              </div>
+              <div className={styles.footer}>
+                <button type="submit" className={styles.submitButton + (isSubmitting ? ' ' + styles.disabled : '')}>
+                  {isSubmitting ? (
+                    <div className={styles.spinLoading}>
+                      <div className={styles.spinLoadingOuterBlock}>
+                        <div className={styles.spinLoadingBlock + ' ' + styles.one}></div>
+                      </div>
+                      <div className={styles.spinLoadingOuterBlock}>
+                        <div className={styles.spinLoadingBlock + ' ' + styles.two}></div>
+                      </div>
+                      <div className={styles.spinLoadingOuterBlock}>
+                        <div className={styles.spinLoadingBlock + ' ' + styles.three}></div>
+                      </div>
+                    </div>
+                  ) : (
+                    t('continue')
+                  )}
+                </button>
+              </div>
+            </Form>
+          </div>
+        </FormikProvider>
+      </div>
+    </>
+  );
 };
 
 export default Register;

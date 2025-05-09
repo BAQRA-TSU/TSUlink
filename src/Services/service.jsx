@@ -5,13 +5,12 @@ let publicKey = import.meta.env.VITE_APP_PUBLIC_KEY;
 
 // // API CALLS
 
-export function PostSignIn(username, password, otp) {
+export function PostSignIn(username, password) {
   return axios.post(
     GetSsoUrl() + `/v1/auth/login`,
     {
       username: username,
       password: password,
-      code: otp,
     },
     {
       headers: { 'x-public-key': publicKey },

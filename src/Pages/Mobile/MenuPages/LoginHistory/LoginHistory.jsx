@@ -4,8 +4,6 @@ import { useNavigate} from "react-router-dom";
 import { BackIcon, ClockClose } from '../../../../assets/svg/svg';
 import { useTranslation } from 'react-i18next';
 import MobileHeaderLogo from '../../../../Components/Mobile/MobilHeaderLogo/MobileHeaderLogo';
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import Loader from "../../../../assets/images/loader-setanta.json"
 import { getAccountLogins } from '../../../../Services/common';
 import { UserContext } from '../../../../Services/userContext';
 import { useNotificationPopup } from '../../../../Services/notificationPopupProvider';
@@ -68,12 +66,7 @@ const LoginHistory = () => {
             :
               <div className={styles.noResultContainer}>
                 {transactionsLoading?
-                  <DotLottieReact
-                    data={Loader}
-                    loop={true}
-                    autoplay={true}
-                    className={styles.loader}
-                  />
+                  <>...</>
                   :	
                   <>
                     <div className={styles.noData}>

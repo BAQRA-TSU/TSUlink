@@ -9,7 +9,6 @@ import { CloseCircleIcon, FavoritesIcon, GridIcon, HomeIcon, IframeButton, PlusC
 import ActivityComponent from "../../../Components/Mobile/Activity/Activity";
 import Popup from "../../../Components/Mobile/Popup/Popup";
 import GamesContainer from "../../../Components/Mobile/MobileGamesContainer/MobileGamesContainer";
-import Deposit from "../WalletPages/Deposit/Deposit";
 import NoCards from "../../../Components/Mobile/NoCards/NoCards";
 import WarningPopup from "../../../Components/Mobile/WarningPopup/WarningPopup";
 import { useNotificationPopup } from "../../../Services/notificationPopupProvider";
@@ -209,7 +208,6 @@ const GamePage = () => {
                 (haveCards
                     ? 
                         <Popup header={"deposit"} hidePopup={setIsDepositPopupOpen}>
-                            <Deposit />
                         </Popup>
                     :
                         <Popup header={"deposit"} hidePopup={setIsDepositPopupOpen}>

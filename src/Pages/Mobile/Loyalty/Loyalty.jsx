@@ -12,8 +12,6 @@ import Popup from '../../../Components/Mobile/Popup/Popup';
 import DateFilter from '../../../Components/Mobile/DateFilter/DateFilter';
 import CashbackCard from './parts/cashbackCard/cashbackCard';
 import { GetLoyaltyList } from '../../../Services/service';
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import Loader from '../../../assets/images/loader-setanta.json';
 
 const LoyaltyPage = () => {
   const { userData } = useContext(UserContext);
@@ -99,7 +97,7 @@ const LoyaltyPage = () => {
               ) : (
                 <div className={styles.noResultContainer}>
                   {loyaltyListLoading ? (
-                    <DotLottieReact data={Loader} loop={true} autoplay={true} className={styles.loader} />
+                    <>...</>
                   ) : (
                     <>
                       <div className={styles.noData}>

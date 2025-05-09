@@ -107,13 +107,15 @@ const Login = () => {
     return (
         <div className={styles.loginWrapper}>
             <div className={styles.headerContainer}>
-                <MobileHeaderLogo/>
+                <span className={styles.aviatorLogo}>TSUlink</span>
             </div>
-            <Switch
-                names={[t("signIn"), t("create.account")]}
-                links={["/login", "/register"]}
-                actives={[true, false]}
-            ></Switch>
+            <div className={styles.switch}>
+                <Switch
+                    names={[t("signIn"), t("create.account")]}
+                    links={["/login", "/register"]}
+                    actives={[true, false]}
+                ></Switch>
+            </div>
             <FormikProvider value={formik}>
                 <div className={styles.login}>
                     <Form autoComplete="on" onSubmit={handleSubmit}>
@@ -175,16 +177,6 @@ const Login = () => {
                             }
                         </button>
                     </Form>
-                    <div className={styles.forgotPassword}>
-                        <p className={styles.forgot +" "+styles.forgotText}>{t("forgot")}</p>
-                        <NavLink  className={styles.forgot} to={"/send-user"}>
-                            {t('username')}
-                        </NavLink>
-                        <p className={styles.or}>{t('forgot.or')}</p>
-                        <NavLink  className={styles.forgot} to={"/password-reset"}>
-                            {t('password')}?
-                        </NavLink>
-                    </div>
                 </div>
             </FormikProvider>
             {showPopup && <TwoFA setTwoFaError={setTwoFaError} username={formik.values.username} phone={phoneNumber} password={formik.values.password} setSubmitting={setSubmitting}  setShowPopup={setShowPopup} />}

@@ -5,10 +5,7 @@ import { isLogedIn } from '../../../Services/common';
 import { useTranslation } from 'react-i18next';
 import { GetGames } from '../../../Services/service';
 import { UserContext } from '../../../Services/userContext';
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import Loader from '../../../assets/images/loader-setanta.json';
 import FooterComponenet from '../../../Components/Mobile/Footer/Footer';
-import 'swiped-events';
 import Popup from '../../../Components/Mobile/Popup/Popup';
 
 const Home = () => {
@@ -55,20 +52,6 @@ const Home = () => {
         })
         .finally(() => setLoader(false));
     }
-
-    const handleSwipe = (e) => {
-      if (e.detail.dir === 'up') {
-        setIsPopupVisible(true);
-      }
-    };
-
-    document.addEventListener('swiped-up', handleSwipe);
-    document.addEventListener('swiped-down', handleSwipe);
-
-    return () => {
-      document.removeEventListener('swiped-up', handleSwipe);
-      document.removeEventListener('swiped-down', handleSwipe);
-    };
   }, []);
 
   useEffect(() => {
@@ -111,7 +94,7 @@ const Home = () => {
   return (
     <>
       {loader || loading ? (
-        isLoaded && <DotLottieReact onLoad={() => setIsload(true)} data={Loader} loop={true} autoplay={true} />
+        isLoaded && <>...</>
       ) : (
         <div ref={containerRef} className={styles.gamesContainer}>
           <div className={styles.gamesWrapper}>

@@ -9,8 +9,6 @@ import { UserContext } from '../../../Services/userContext.jsx';
 import { useTranslation } from 'react-i18next';
 import Popup from '../Popup/Popup.jsx';
 import ProvidersComponent from '../Providers/Providers.jsx';
-import Loader from '../../../assets/images/loader-setanta.json';
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { useNotificationPopup } from '../../../Services/notificationPopupProvider.jsx';
 import PropTypes from 'prop-types';
 
@@ -433,7 +431,7 @@ const GamesContainer = ({ categoryName }) => {
           ) : (
             <div className={styles.noResultContainer}>
               {gamesLoading ? (
-                <DotLottieReact data={Loader} loop={true} autoplay={true} className={styles.loader} />
+                "..."
               ) : (
                 <>
                   <NoResultsIcon />

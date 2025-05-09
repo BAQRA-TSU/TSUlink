@@ -1,5 +1,4 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styles from './Withdrawal.module.css';
@@ -8,7 +7,6 @@ import Cards from '../../../../Components/Mobile/Cards/Cards';
 import { deleteCard, getCard, isLogedIn, postWallet } from '../../../../Services/common';
 import { UserContext } from '../../../../Services/userContext';
 import WarningPopup from '../../../../Components/Mobile/WarningPopup/WarningPopup';
-import Loader from '../../../../assets/images/loader-setanta.json';
 import { MessagePlus } from '../../../../assets/svg/svg';
 import Popup from '../../../../Components/Mobile/Popup/Popup';
 import WithdrawDetailsComponent from '../../../../Components/Mobile/WithdrawDetailsComponent/WithdrawDetailsComponent';
@@ -195,7 +193,7 @@ const Withdrawal = () => {
           style={{ width: localWallet.cards && localWallet.cards.length === 0 ? '100%' : '' }}
         >
           {isCardsLoading ? (
-            <DotLottieReact data={Loader} loop={true} autoplay={true} />
+            <>...</>
           ) : localWallet.cards && localWallet.cards.length > 0 ? (
             <>
               <div className={styles.paymentContainer + ' ' + (manage ? styles.manageActive : '')}>

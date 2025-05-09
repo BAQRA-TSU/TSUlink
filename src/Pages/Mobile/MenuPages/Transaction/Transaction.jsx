@@ -7,8 +7,6 @@ import MobileHeaderLogo from '../../../../Components/Mobile/MobilHeaderLogo/Mobi
 import Popup from '../../../../Components/Mobile/Popup/Popup';
 import ProvidersComponent from '../../../../Components/Mobile/Providers/Providers';
 import { getOneTransaction, getTransactions } from '../../../../Services/common';
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import Loader from '../../../../assets/images/loader-setanta.json';
 import { UserContext } from '../../../../Services/userContext';
 import TransactionDetails from '../../../../Components/Mobile/TransactionDetails/TransactionDetails';
 import { useNotificationPopup } from '../../../../Services/notificationPopupProvider';
@@ -327,7 +325,7 @@ const Transactions = () => {
             ) : (
               <div className={styles.noResultContainer}>
                 {transactionsLoading ? (
-                  <DotLottieReact data={Loader} loop={true} autoplay={true} className={styles.loader} />
+                  <>...</>
                 ) : (
                   <>
                     <div className={styles.noData}>

@@ -7,8 +7,6 @@ import {
 } from "../../../../../assets/svg/svg";
 import { useNotificationPopup } from "../../../../../Services/notificationPopupProvider";
 import { getLoyalty } from "../../../../../Services/common";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import Loader from '../../../../../assets/images/loader-setanta.json'
 
 const Progress = () => {
   const [t] = useTranslation();
@@ -77,12 +75,7 @@ const Progress = () => {
         </div>
       </div >
       :
-      <DotLottieReact
-        data={Loader}
-        loop={true}
-        autoplay={true}
-        className={styles.loader}
-      />
+      <>...</>
   );
 };
 

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { Component } from 'react';
-import Error from '../Components/Mobile/Error/Error';
+import Error from '../Components/Error/Error';
 
 class ErrorBoundary extends Component {
   

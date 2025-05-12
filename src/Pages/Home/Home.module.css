@@ -1,0 +1,66 @@
+.gamesContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin-top: 50px;
+  row-gap: 20px;
+  font-family: 'HelveticaBold';
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.courseContainer {
+  width: 50%;
+}
+
+.courseButton {
+  cursor: pointer;
+  border: none;
+  color: #ffffff;
+  text-decoration: none;
+  display: flex;
+  height: 68px;
+  gap: 12px;
+  padding: 8px 16px;
+  align-items: center;
+  border-radius: 16px;
+  background: rgba(28, 28, 28, 0.6);
+  width: 100%;
+}
+
+.semesterContainer {
+  margin-left: 20px;
+}
+
+.semesterButton {
+  display: block;
+  width: 100%;
+  margin-top: 15px;
+  color: #ffffff;
+  background: rgba(28, 28, 28, 0.6);
+  border-radius: 10px;
+  padding: 16px;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.itemList {
+  margin-left: 20px;
+  list-style: none;
+  padding: 0;
+}
+
+.item {
+  cursor: pointer;
+  margin-top: 10px;
+  background: rgba(28, 28, 28, 0.6);
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+
+.item:hover {
+  background: rgba(44, 44, 44, 0.6);
+}

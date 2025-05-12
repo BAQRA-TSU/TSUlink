@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import './Colors.css';
-import MobileRoutes from './Pages/Mobile/Layout/Routes/Router';
-import MobileHeader from './Pages/Mobile/Layout/Header/Header';
-import MobileFooter from './Pages/Mobile/Layout/Footer/Footer';
+import MobileRoutes from './Pages/Layout/Routes/Router';
+import MobileHeader from './Pages/Layout/Header/Header';
+// import MobileFooter from './Pages/Layout/Footer/Footer';
 import ScrollToTop from './Components/ScrollToTop/scrollToTop';
 import { useLocation } from 'react-router-dom';
-import { isMobile } from 'react-device-detect';
 
 export const App = () => {
   const [showHeader, setShowHeader] = useState(true);
@@ -26,7 +25,6 @@ export const App = () => {
     } else {
       setShowHeader(true);
     }
-    
   }, [location]);
 
   return (
@@ -36,7 +34,7 @@ export const App = () => {
         <div className="main-container">
           {showHeader && <MobileHeader />}
           <MobileRoutes />
-          {showHeader && <MobileFooter />}
+          {/* {showHeader && <MobileFooter />} */}
         </div>
       </>
     </>

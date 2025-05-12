@@ -7,13 +7,10 @@ let publicKey = import.meta.env.VITE_APP_PUBLIC_KEY;
 
 export function PostSignIn(username, password) {
   return axios.post(
-    GetSsoUrl() + `/v1/auth/login`,
+    GetSsoUrl() + `/login`,
     {
       username: username,
       password: password,
-    },
-    {
-      headers: { 'x-public-key': publicKey },
     }
   );
 }
@@ -181,20 +178,14 @@ export function PostRecoverySend(phone, id) {
   );
 }
 
-export function PostRegister(id, userName, password, email, smsNotification, lang, firstName, lastName) {
+export function PostRegister(userName, password, firstName, lastName) {
   return axios.post(
-    GetSsoUrl() + `/v1/auth/register/${id}`,
+    GetSsoUrl() + '/register',
     {
       userName: userName,
       password: password,
-      email: email,
-      smsNotification: smsNotification,
-      lang: lang,
       firstName: firstName,
-      lastName: lastName,
-    },
-    {
-      headers: { 'x-public-key': publicKey },
+      lastName: lastName
     }
   );
 }

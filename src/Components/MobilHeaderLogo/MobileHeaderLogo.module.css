@@ -1,0 +1,12 @@
+﻿.aviatorLogo{
+    background-image: url('../../assets/images/aviatorLogo.png');
+    width: 124px;
+    height: 21px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.disabled{
+    pointer-events: none;
+}

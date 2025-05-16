@@ -1,6 +1,6 @@
 import { isMobile } from "react-device-detect";
 import { useMedia } from "use-media";
-import { GetCategories, PostRefreshToken, PostSignIn} from "./service";
+import { GetCategories, GetLecturer, GetSubject, PostRefreshToken, PostSignIn} from "./service";
 
 let authUrl = import.meta.env.VITE_APP_AUTH_URL
 let categoriesUrl = import.meta.env.VITE_APP_CATEGORIES_URL
@@ -235,6 +235,68 @@ export const getCategories = async (retried = false) => {
                 if (error.response && error.response.status === 401) {
                     if (!retried) {
                         return await retry(getCategories)
+                            .then((resp) => {
+                                return resp;
+                            })
+                            .catch(() => {
+                                throw new Error("UNAUTHORIZED");
+                            });
+                    } else {
+                        throw new Error("UNAUTHORIZED");
+                    }
+                } else if (error.response) {
+                    throw new Error(error.response.data.message);
+                } else {
+                    return false;
+                }
+            });
+    } else {
+        throw new Error("UNAUTHORIZED");
+    }
+}
+
+export const getSubject = async (shortName ,retried = false) => {
+    const accessToken = GetAccessToken();
+    if (accessToken) {
+        return await GetSubject(shortName, accessToken)
+            .then((resp) => {
+                return resp.data;
+            })
+            .catch(async (error) => {
+                if (error.response && error.response.status === 401) {
+                    if (!retried) {
+                        return await retry(getSubject(shortName))
+                            .then((resp) => {
+                                return resp;
+                            })
+                            .catch(() => {
+                                throw new Error("UNAUTHORIZED");
+                            });
+                    } else {
+                        throw new Error("UNAUTHORIZED");
+                    }
+                } else if (error.response) {
+                    throw new Error(error.response.data.message);
+                } else {
+                    return false;
+                }
+            });
+    } else {
+        throw new Error("UNAUTHORIZED");
+    }
+}
+
+export const getLecturer = async (id ,retried = false) => {
+    const accessToken = GetAccessToken();
+    if (accessToken) {
+        return await GetLecturer(id, accessToken)
+            .then((resp) => {
+                return resp.data;
+            })
+            .catch(async (error) => {
+                if (error.response && error.response.status === 401) {
+                    if (!retried) {
+                        return await retry(getLecturer(id))
                             .then((resp) => {
                                 return resp;
                             })

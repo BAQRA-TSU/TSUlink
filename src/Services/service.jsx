@@ -32,3 +32,16 @@ export function GetCategories(accessToken) {
     accessToken: accessToken,
   });
 }
+
+
+export function GetSubject(shortName, accessToken) {
+  return axios.get(GetSubjectsUrl()+`/${shortName}`, {
+    accessToken: accessToken,
+  });
+}
+
+export function GetLecturer(id, accessToken) {
+  return axios.get(GetLecturersUrl()+`/${id}`, {
+    accessToken: accessToken,
+  });
+}

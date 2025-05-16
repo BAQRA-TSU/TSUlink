@@ -84,7 +84,7 @@ const Login = () => {
   return (
     <div className={styles.loginWrapper}>
       <div className={styles.headerContainer}>
-        <span className={styles.aviatorLogo}>TSUlink</span>
+        <span className={styles.tsuLinkLogo}></span>
       </div>
       <div className={styles.switch}>
         <Switch

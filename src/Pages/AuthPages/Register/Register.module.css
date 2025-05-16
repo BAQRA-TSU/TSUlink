@@ -12,13 +12,13 @@
     scrollbar-width: none;
 }
 
-.aviatorLogo{
-    display: block;
-    /* background-image: url(../../../../assets/images/login/aviatorLogo.svg); */
+.tsuLinkLogo{
+    background-image: url('../../../assets/images/TSUlinkLogo.png');
     width: 124px;
-    height: 32px;
+    height: 39px;
     background-repeat: no-repeat;
     background-position: center;
+    background-size: cover;
 }
 
 .inputContainer{

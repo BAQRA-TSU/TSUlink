@@ -6,6 +6,7 @@ import MobileHeader from './Pages/Layout/Header/Header';
 // import MobileFooter from './Pages/Layout/Footer/Footer';
 import ScrollToTop from './Components/ScrollToTop/scrollToTop';
 import { useLocation } from 'react-router-dom';
+import FooterComponent from './Pages/Layout/Footer/Footer';
 
 export const App = () => {
   const [showHeader, setShowHeader] = useState(true);
@@ -34,7 +35,7 @@ export const App = () => {
         <div className="main-container">
           {showHeader && <MobileHeader />}
           <MobileRoutes />
-          {/* {showHeader && <MobileFooter />} */}
+          {showHeader && <FooterComponent />}
         </div>
       </>
     </>

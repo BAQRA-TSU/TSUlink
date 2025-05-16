@@ -4,7 +4,7 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import * as Yup from 'yup';
 
 import { useLocation, useNavigate } from 'react-router-dom';
-import { isLogedIn, SetAccessToken, SetRefreshToken } from '../../../Services/common';
+import { isLogedIn } from '../../../Services/common';
 import Input from '../../../Components/Input/Input';
 import { EyeIcon, EyeOffIcon, NotValidIcon, ValidIcon } from '../../../assets/svg/svg';
 import { PostRegister } from '../../../Services/service';
@@ -14,7 +14,7 @@ import { useNotificationPopup } from '../../../Services/notificationPopupProvide
 import Switch from '../../../Components/Switch/Switch';
 
 const Register = () => {
-  const [t, i18n] = useTranslation();
+  const [t] = useTranslation();
   const history = useNavigate();
   const location = useLocation();
   const passwordRef = useRef();
@@ -92,14 +92,11 @@ const Register = () => {
     onSubmit: (data) => {
       if (isMinValid && isSpecValid && isUppercaseValid && isNumValid) {
           PostRegister(data.username, data.password, data.firstName, data.lastName)
-            .then((resp) => {
-              const { access_token, refresh_token } = resp.data;
+            .then(() => {
               showSnackNotificationPopup({ status: 'COMPLETED', text: t('account.created') });
-              SetRefreshToken(refresh_token);
-              SetAccessToken(access_token);
               setChangeUser(true);
               setWallet(null);
-              history('/');
+              history('/login');
             })
             .catch((error) => {
               const yupErrors = {};
@@ -136,7 +133,7 @@ const Register = () => {
     <>
       <div className={styles.registerWrapper}>
         <div className={styles.headerContainer}>
-          <span className={styles.aviatorLogo}>TSUlink</span>
+          <span className={styles.tsuLinkLogo}></span>
         </div>
         <div className={styles.switch}>
           <Switch

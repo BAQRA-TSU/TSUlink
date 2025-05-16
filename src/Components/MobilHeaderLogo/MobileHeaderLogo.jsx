@@ -4,7 +4,7 @@ import styles from "./MobileHeaderLogo.module.css";
 const MobileHeaderLogo = () => {
     return (
         <Link to={"/"} >
-            <div className={styles.aviatorLogo}/>
+            <div className={styles.tsuLinkLogo}/>
         </Link>
     );
 };

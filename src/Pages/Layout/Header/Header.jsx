@@ -16,19 +16,11 @@ const Header = () => {
         <header className={styles.header}>
           <div className={styles.headerWrapper}>
             <MobileHeaderLogo />
-            {isLogedIn() ? (
-              <>
-                <div className={styles.headerRight}>
-                  <div onClick={logout} className={styles.logout}>
-                    {t('logOut')}
-                  </div>
-                </div>
-              </>
-            ) : (
-              <NavLink to={'/login'} className={styles.signIn}>
-                {t('signIn')}
-              </NavLink>
-            )}
+            <div className={styles.headerRight}>
+              <div onClick={logout} className={styles.logout}>
+                {t('logOut')}
+              </div>
+            </div>
           </div>
         </header>
       }

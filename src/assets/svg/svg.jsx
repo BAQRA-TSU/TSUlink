@@ -352,7 +352,7 @@ export const HomeLoyalyIcon = () => {
   );
 };
 
-export const HomeSetantaIcon = () => {
+export const HomeTSUlinkIcon = () => {
   return (
   <svg
     xmlns="http://www.w3.org/2000/svg"

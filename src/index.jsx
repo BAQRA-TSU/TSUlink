@@ -8,6 +8,8 @@ import { UserProvider } from './Services/userContext';
 import './Services/i18n';
 import i18next from 'i18next';
 import { NotificationPopupProvider } from './Services/notificationPopupProvider';
+import NotificationPopup from './Components/NotificationPopup/NotificationPopup';
+import NotificationSnack from './Components/NotificationSnack/NotificationSnack';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -21,6 +23,8 @@ root.render(
         <UserProvider>
           {/* <Suspense fallback={<Loading/>}> */}
           <App />
+          <NotificationPopup />
+          <NotificationSnack />
           {/* </Suspense> */}
         </UserProvider>
       </NotificationPopupProvider>

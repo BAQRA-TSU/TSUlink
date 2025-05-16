@@ -1,12 +1,8 @@
-﻿.aviatorLogo{
+﻿.tsuLinkLogo{
     background-image: url('../../assets/images/TSUlinkLogo.png');
     width: 124px;
     height: 39px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-}
-
-.disabled{
-    pointer-events: none;
 }

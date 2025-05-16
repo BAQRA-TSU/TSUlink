@@ -1,103 +1,77 @@
-import { useContext, useEffect, useState } from "react";
-import styles from "./Footer.module.css";
-import { NavLink, useLocation } from "react-router-dom";
-import { isLogedIn } from "../../../../Services/common";
-import Popup from "../../../../Components/Popup/Popup";
-import { ActivityIcon, ChatIcon, HomeSetantaIcon, HomeLoyalyIcon, HomePlusIcon } from "../../../../assets/svg/svg";
-import ActivityComponent from "../../../../Components/Activity/Activity";
-import { useTranslation } from "react-i18next";
-import { UserContext } from "../../../../Services/userContext";
-// import PartnersSlider from "../../../../Components/PartnersSlider/PartnersSlider";
-// import TermsAndConditions from "../../../../Components/TermsAndConditions/TermsAndConditions";
-// import MailchimpSubscribe from "react-mailchimp-subscribe";
-// import Slider from "react-slick";
+import { useTranslation } from "react-i18next"
+import { AgeIcon, ChatIconFooter, FbIcon, FlagEn, FlagGeo, FlagRus, InstaIcon, PhoneIconFooter, RightArrow, YtIcon } from "../../../assets/svg/svg"
+import MobileHeaderLogo from "../../../Components/MobilHeaderLogo/MobileHeaderLogo"
+import styles from "./Footer.module.css"
+import { useState } from "react"
+import { NavLink } from "react-router-dom"
+
+const FooterComponent = () => {
+    const [t, i18n] = useTranslation()
+    const [lang, setLang] = useState(i18n.language);
 
 
-const Footer = () => {
-  const [isPopupVisible, setIsPopupVisible] = useState(false);
-  const [t] = useTranslation();
-  const { wallet } = useContext(UserContext);
-  const [localWallet, setLocalWallet] = useState({ currencySymbol: "₾",currceny: "GEL", balance: 0});
-  const [showFooter, setShowFooter] = useState(true)
-	const [activePage, setActivePage] = useState("/");
-  const location = useLocation();
-  const { userData } = useContext(UserContext);
-  const [isWithdrawOnlyBlock, setIsWithdrawOnlyBlock] = useState();
-
-  useEffect(() => {
-    if (userData && userData.withdrawalOnlyBlock === true) {
-      setIsWithdrawOnlyBlock(true);
+    function openChat() {
+        window._dixa_.invoke('setWidgetOpen', true);
     }
-  }, [userData])
-  
-  useEffect(() => {
-    setActivePage(location.pathname)
-    if (location.pathname.includes("/verify")) {
-      setShowFooter(false)
-    } else {
-      setShowFooter(true)
-    }
-  }, [location])
-  
-  useEffect(() => {
-    if (wallet) {
-      setLocalWallet(wallet)
-    }
-  }, [wallet])
 
-  function formatNumberWithDots(number) {
-    return number.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-  
-  function openChat() {
-      window._dixa_.invoke('setWidgetOpen', true);
-  }
-  
-
-  return (
-    <> {showFooter &&
-        <footer className={styles.footer}>
-          <NavLink to={"/"} className={styles.homeComponent + (isWithdrawOnlyBlock ? " " + styles.disabled : "")}>
-                  <span style={{color: 'rgba(255, 209, 6, 1)'}}><HomeSetantaIcon/></span>
-                  <div className={styles.title + " " + (activePage === "/" ?styles.active : "")}>
-                      {t("home")}
-                  </div>
-          </NavLink>
-          <NavLink to={"/loyalty"} className={styles.homeComponent + (isWithdrawOnlyBlock ? " " + styles.disabled : "")}>
-                  <HomeLoyalyIcon/>
-                  <div className={styles.title + " " + (activePage === "/loyalty" ?styles.active : "")}>
-                      {t("loyalty")}
-                  </div>
-          </NavLink>
-          {isLogedIn() ? 
-            <NavLink to={'/deposit'} className={styles.balanceComponent}>
-            <div className={styles.balanceNum}>{localWallet.showBalance ? (localWallet.currencySymbol + " " + formatNumberWithDots(localWallet.balance / 100)) : "****"}</div>
-              <span className={(isWithdrawOnlyBlock ? " " + styles.disabled : "")}><HomePlusIcon/></span>
-            </NavLink>
-            :
-            <NavLink to={'/login'} className={styles.signIn}>{t("signIn")}</NavLink>
-          }
-          <div onClick={() => setIsPopupVisible(true)} className={styles.homeComponent + (isWithdrawOnlyBlock ? " " + styles.disabled : "")}>
-                  <ActivityIcon/>
-                  <div className={styles.title}>
-                      {t("activity")}
-                  </div>
-          </div>
-          <NavLink onClick={openChat} className={styles.homeComponent}>
-                  <ChatIcon/>
-                  <div className={styles.title}>
-                      {t("chat")}
-                  </div>
-          </NavLink>
-        </footer>
+    function langChange(params) {
+        i18n.changeLanguage(params.target.value);
+        localStorage.setItem("i18nextLng", params.target.value);
+        setLang(params.target.value);
       }
-      {isPopupVisible &&
-      <Popup header={"my.games"} hidePopup={setIsPopupVisible}>
-        <ActivityComponent />
-      </Popup>
-      }
-      </>
-  );
-};
 
-export default Footer;
+    return (
+        <div className={styles.footerComponenet}>
+            <div className={styles.footerHeader}>
+                <MobileHeaderLogo />
+                <div className={styles.socialsComponent}>
+                    <a rel="noreferrer" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank"><FbIcon/></a>
+                    <a rel="noreferrer" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank"><InstaIcon/></a>
+                    <a rel="noreferrer" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank"> <YtIcon/></a>
+                </div>
+            </div>
+            <div className={styles.contactComponent}>
+                <a href="tel:0 32 2 555 555" className={styles.contactElement}>
+                    <PhoneIconFooter />
+                    <div className={styles.contactRight}>
+                        <p className={styles.contactHeader}>0 32 2 555 555</p>
+                        <p className={styles.contactText}>{t("call")}</p>
+                    </div>
+                </a>
+            </div>
+            <div className={styles.languageContainer}>
+                <div className={styles.flagDiv}>
+                {lang === "en" ? <FlagEn/> :""}
+                {lang === "ru" ? <FlagRus/> :""}
+                {lang === "ka" ? <FlagGeo/> :""}
+                </div>
+                <span className={styles.rightArrow}><RightArrow/></span>
+                <select onChange={(el) => {langChange(el)}} value={lang} className={styles.categoryItem} name="language" id="language">
+                            <option value="en" label="English"></option>
+                            <option value="ka" label="ქართული"></option>
+                            <option value="ru" label="русский"></option>
+                </select>
+            </div>
+            <div className={styles.footerInfo}>
+                <p className={styles.footerText}>{t("copyright")}</p>
+                <span className={styles.ageIcon}><AgeIcon/></span>
+            </div>
+            <div className={styles.infoNumbers}>
+                <div className={styles.row}>
+                    <p className={styles.infoHeader}>{t("info.number")}</p>
+                    <p className={styles.infoNumber}>19-10/002</p>
+                </div>
+                <div className={styles.row}>
+                    <p className={styles.infoHeader}>{t("info.number")}</p>
+                    <p className={styles.infoNumber}>19-10/003</p>
+                </div>
+                <div className={styles.row}>
+                    <p className={styles.infoHeader}>{t("info.number")}</p>
+                    <p className={styles.infoNumber}>19-10/004</p>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default FooterComponent

@@ -10,13 +10,13 @@
   background-size: cover;
 }
 
-.aviatorLogo {
-  display: block;
-  font-family: 'HelveticaMedium';
-  color: white;
-  font-size: 24px;
-  background-repeat: no-repeat;
-  background-position: center;
+.tsuLinkLogo{
+    background-image: url('../../../assets/images/TSUlinkLogo.png');
+    width: 124px;
+    height: 39px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 .switch {

@@ -17,7 +17,8 @@
 .courseButton {
   cursor: pointer;
   border: none;
-  color: #ffffff;
+  color: #66ccb5;
+  font-size: 24px;
   text-decoration: none;
   display: flex;
   height: 68px;
@@ -27,6 +28,7 @@
   border-radius: 16px;
   background: rgba(28, 28, 28, 0.6);
   width: 100%;
+  font-family: 'HelveticaBold';
 }
 
 .semesterContainer {
@@ -37,14 +39,15 @@
   display: block;
   width: 100%;
   margin-top: 15px;
-  color: #ffffff;
+  color: #4cc56b;
   background: rgba(28, 28, 28, 0.6);
   border-radius: 10px;
   padding: 16px;
   border: none;
   text-align: left;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
+  font-family: 'HelveticaBold';
 }
 
 .itemList {
@@ -56,11 +59,17 @@
 .item {
   cursor: pointer;
   margin-top: 10px;
+  color: #4cc56b;
   background: rgba(28, 28, 28, 0.6);
   padding: 8px 16px;
   border-radius: 8px;
+  font-size: 14px;
 }
 
 .item:hover {
   background: rgba(44, 44, 44, 0.6);
+}
+
+.even{
+  color: #daac78;
 }

@@ -19,15 +19,6 @@
     backdrop-filter: blur(10px);
 }
 
-/* .fixHeader{
-    position: fixed;
-} */
-
-/* .showHeader {
-    -webkit-animation: fadeIn 0.5s;
-    animation: fadeIn 0.5s;
-} */
-
 .burgerMenuAvatar{
     border-radius: 50%;
     /* background-image: url('../../../../assets/images/avatar.png'); */
@@ -66,14 +57,6 @@
     border-image-source: linear-gradient(90deg, transparent 20%, #ffffff40 50%, transparent 80%);
 }
 
-.verifIcon{
-    position: absolute;
-    text-align: center;
-    justify-content: center;
-    top: -5px;
-    right: -8px;
-}
-
 .signIn{
     width: 79px;
     height: 40px;
@@ -93,27 +76,6 @@
     border-image-source: linear-gradient(90deg, transparent 20%, rgba(141, 215, 97, 0.8) 50%, transparent 80%);
 }
 
-.burgerMenuAvatarContainer{
-    position: relative;
-}
-.burgerMenuNotification{
-    width: 12px;
-    height: 12px;
-    border-radius: 40px;
-    background: #FF1F1F;
-    border: 1px solid #252525;
-    position: absolute;
-    font-size: 8px;
-    font-weight: 700;
-    line-height: 11px;
-    text-align: center;
-    color: white;
-    display: flex;
-    justify-content: center;
-    top: -3px;
-    right: -2px;
-}
-
 .closeIconWrapper{
     border-radius: 50%;
     background-color: rgb(40, 44, 57);
@@ -129,19 +91,6 @@
     background-position: -235px -44px;
     width: 27px;
     height: 26px;
-}
-
-.verify{
-    cursor: pointer;
-    width: 80px;
-    text-align: center;
-    height: 40px;
-    border-radius: 32px;
-    background-color:#49494926;
-    padding: 8px;
-    border: 0.5px solid;
-    border-image-slice: 1;
-    border-image-source: linear-gradient(90deg, transparent 20%, #ffffff40 50%, transparent 80%);
 }
 
 @-webkit-keyframes fadeIn {
@@ -169,27 +118,19 @@
     gap: 12px;
 }
 
-.count{
-    width: 12px;
-    height: 12px;
-    gap: 8px;
-    border-radius: 40px;
-    background: rgba(255, 31, 31, 1);
-    border: 1px solid rgba(37, 37, 37, 1);
-    font-size: 8px;
-    font-weight: 700;
-    line-height: 12px;
-    text-align: center;
-    color: var(--color-grey-600);
-    position: absolute;
-    font-family: "HelveticaRoman";
-    right: 0;
-    top: 0;
+.logout{
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+    color: #66ccb5;
+    font-family: "HelveticaMedium";
+    width: 80px;
+    height: 48px;
+    border-radius: 16px;
+    background: #9898982B;
     display: flex;
-    align-items: center;
     justify-content: center;
-}
-
-.notificationCount{
-    position: relative;
+    align-items: center;
 }

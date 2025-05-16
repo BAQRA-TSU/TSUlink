@@ -20,15 +20,20 @@ const Lecturer = () => {
   }
 
   useEffect(() => {
-    getLecturer(id)
-      .then((res) => {
-        setData(res);
-        console.log(res);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [name]);
+    const cachedData = sessionStorage.getItem(`lecturer-${id}`);
+    if (cachedData) {
+      setData(JSON.parse(cachedData));
+    } else {
+      getLecturer(id)
+        .then((res) => {
+          setData(res);
+          sessionStorage.setItem(`lecturer-${id}`, JSON.stringify(res));
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, [id]);
 
   const handleAddReview = () => {
     if (newReview.trim()) {

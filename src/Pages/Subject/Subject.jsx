@@ -21,14 +21,19 @@ const Subject = () => {
   }
 
   useEffect(() => {
-    getSubject(name)
-      .then((res) => {
-        setData(res);
-        console.log(res);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    const cachedData = sessionStorage.getItem(`subject-${name}`);
+    if (cachedData) {
+      setData(JSON.parse(cachedData));
+    } else {
+      getSubject(name)
+        .then((res) => {
+          setData(res);
+          sessionStorage.setItem(`subject-${name}`, JSON.stringify(res));
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   }, [name]);
 
   const handleAddReview = () => {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styles from './Subject.module.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,34 +15,42 @@ const Subject = () => {
 
   if (!name) {
     navigate('/');
-    return null;
   }
 
-  const data = {
-    name: 'Calculus',
-    lecturers: {
-      lecture: ['სახელი გვარი', 'სახელი გვარი'],
-      practical: ['სახელი გვარი', 'სახელი გვარი'],
-      lab: ['სახელი გვარი'],
-    },
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget consectetur sagittis, nisl nunc euismod nisi, vitae bibendum nunc nisl euismod nisi.',
-    reviews: [
-      {
-        name: 'Saxeli Gvari',
-        review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+  const data = useMemo(
+    () => ({
+      name: 'Calculus',
+      lecturers: {
+        lecture: [
+          { name: 'სახელი გვარი', id: '1' },
+          { name: 'სახელი გვარი', id: '2' },
+        ],
+        practical: [
+          { name: 'სახელი გვარი', id: '3' },
+          { name: 'სახელი გვარი', id: '4' },
+        ],
+        lab: [{ name: 'სახელი გვარი', id: '5' }],
       },
-      {
-        name: 'Saxeli Gvari',
-        review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      },
-    ],
-    files: [],
-  };
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget consectetur sagittis, nisl nunc euismod nisi, vitae bibendum nunc nisl euismod nisi.',
+      reviews: [
+        {
+          name: 'Saxeli Gvari',
+          review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        },
+        {
+          name: 'Saxeli Gvari',
+          review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        },
+      ],
+      files: [],
+    }),
+    []
+  );
 
   useEffect(() => {
     setReviews(data.reviews);
-  },[])
+  }, [data]);
 
   const handleAddReview = () => {
     if (newReview.trim()) {
@@ -52,7 +60,7 @@ const Subject = () => {
   };
 
   const handleNavigate = (item) => {
-    history(`/lecturer/?name=${item}`);
+    history(`/lecturer/?id=${item}`);
   };
 
   return (
@@ -68,8 +76,8 @@ const Subject = () => {
               <h3>{category.charAt(0).toUpperCase() + category.slice(1)}</h3>
               <ul>
                 {data.lecturers[category].map((lecturer, index) => (
-                  <li key={index} onClick={() => handleNavigate(lecturer)}>
-                    {lecturer}
+                  <li key={index} onClick={() => handleNavigate(lecturer.id)}>
+                    {lecturer.name}
                   </li>
                 ))}
               </ul>
@@ -86,11 +94,12 @@ const Subject = () => {
       <div className={styles.section}>
         <h2>Reviews</h2>
         <ul className={styles.reviewList}>
-          {reviews && reviews.map((review, index) => (
-            <li key={index} className={styles.reviewItem}>
-              <strong>{review.name}:</strong> {review.review}
-            </li>
-          ))}
+          {reviews &&
+            reviews.map((review, index) => (
+              <li key={index} className={styles.reviewItem}>
+                <strong>{review.name}:</strong> {review.review}
+              </li>
+            ))}
         </ul>
         <div className={styles.newReview}>
           <textarea

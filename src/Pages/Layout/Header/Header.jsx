@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import styles from './Header.module.css';
 import MobileHeaderLogo from '../../../Components/MobilHeaderLogo/MobileHeaderLogo.jsx';
 import { NavLink } from 'react-router-dom';
-import { getLoyalty, isLogedIn } from '../../../Services/common.jsx';
+import { isLogedIn } from '../../../Services/common.jsx';
 import { UserContext } from '../../../Services/userContext.jsx';
 import { useTranslation } from 'react-i18next';
 import { BellIcon, UnverifiedIcon, VerifPendingIcon, VerifiedIcon } from '../../../assets/svg/svg.jsx';

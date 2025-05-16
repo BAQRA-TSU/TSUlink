@@ -3,11 +3,15 @@ import { Route, Routes } from 'react-router';
 import Home from '../../Home/Home';
 import Subject from '../../Subject/Subject';
 import Lecturer from '../../Lecturer/Lecturer';
+import Register from '../../AuthPages/Register/Register';
+import Login from '../../AuthPages/Login/Login';
 
 const Router = () => {
   return (
     <Routes>
       <Route exact path="/" element={<Home pageName={'/HomePage'} />} />
+      <Route path="/login" element={<Login pageName={'/login'} />} />
+      <Route path="/register" element={<Register pageName={'/register'} />} />
       <Route exact path="/subject">
         <Route path="/subject" element={<Subject />} />
       </Route>
@@ -21,11 +25,9 @@ const Router = () => {
       <Route exact path="/slots" element={<VeriffRouter />}>
         <Route path="/slots" element={<Slots pageName={'/SlotsPage'} />} />
       </Route>
-      <Route path="/login" element={<Login pageName={'/login'} />} />
       <Route path="/password-reset" element={<UpdatePassword pageName={'/password-reset'} />} />
       <Route path="/password-reset/new-password" element={<NewPassword pageName={'/password-reset/new-password'} />} />
       <Route path="/send-user" element={<UpdateUser pageName={'/send-user'} />} />
-      <Route path="/register" element={<Register pageName={'/register'} />} />
       <Route exact path="/menu" element={<PrivateRoute />}>
         <Route exact path="/menu" element={<Menu pageName={'/menu'} />} />
       </Route>

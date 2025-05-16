@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styles from './Lecturer.module.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,41 +9,43 @@ const Lecturer = () => {
 
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const name = urlParams.get('name');
+  const id = urlParams.get('id');
 
   const navigate = useNavigate();
 
-  if (!name) {
+  if (!id) {
     navigate('/');
-    return null;
   }
 
-  const data = {
-    name: 'SAXELI GVARI',
-    subjects: [
-      { name: 'Calculus', shortName: 'calculus' },
-      { name: 'Linear Algebra', shortName: 'linear-algebra' },
-    ],
-    information: {
-      email: 'john.doe@ens.tsu.edu.ge',
-      phoneNumber: '+995 555 55 55 55',
-      office: 'Room 101, Building A',
-    },
-    reviews: [
-      {
-        name: 'Saxeli Gvari',
-        review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+  const data = useMemo(
+    () => ({
+      name: 'SAXELI GVARI',
+      subjects: [
+        { name: 'Calculus', shortName: 'calculus' },
+        { name: 'Linear Algebra', shortName: 'linear-algebra' },
+      ],
+      information: {
+        email: 'john.doe@ens.tsu.edu.ge',
+        phoneNumber: '+995 555 55 55 55',
+        office: 'Room 101, Building A',
       },
-      {
-        name: 'Saxeli Gvari',
-        review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      },
-    ],
-  };
+      reviews: [
+        {
+          name: 'Saxeli Gvari',
+          review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        },
+        {
+          name: 'Saxeli Gvari',
+          review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        },
+      ],
+    }),
+    []
+  );
 
   useEffect(() => {
     setReviews(data.reviews);
-  }, []);
+  }, [data]);
 
   const handleAddReview = () => {
     if (newReview.trim()) {
@@ -52,7 +54,7 @@ const Lecturer = () => {
     }
   };
 
-   const handleNavigate = (item) => {
+  const handleNavigate = (item) => {
     history(`/subject/?name=${item}`);
   };
 

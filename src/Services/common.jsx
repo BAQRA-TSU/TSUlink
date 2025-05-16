@@ -2,6 +2,8 @@ import { isMobile } from "react-device-detect";
 import { useMedia } from "use-media";
 import { GetCategories, GetLecturer, GetSubject, PostRefreshToken, PostSignIn} from "./service";
 
+console.log(import.meta.env);
+
 let authUrl = import.meta.env.VITE_APP_AUTH_URL
 let categoriesUrl = import.meta.env.VITE_APP_CATEGORIES_URL
 let lecturersUrl = import.meta.env.VITE_APP_LECTURERS_URL

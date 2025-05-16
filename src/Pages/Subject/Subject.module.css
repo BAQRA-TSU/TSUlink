@@ -1,11 +1,16 @@
 .container {
   position: relative;
   width: 100%;
+  min-height: calc(100vh - 90px);
   font-family: 'HelveticaBold';
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 20px;
 }
 
-.content{
+.content {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -33,19 +38,19 @@
 .section h2 {
   font-size: 26px;
   font-weight: bold;
-  color: #ffffff; 
-  margin-bottom: 15px; 
+  color: #ffffff;
+  margin-bottom: 15px;
   border-bottom: 2px solid #007bff;
-  padding-bottom: 5px; 
-  text-transform: uppercase; 
+  padding-bottom: 5px;
+  text-transform: uppercase;
 }
 
 .placeholder {
-  background: rgba(255, 255, 255, 0.1); 
+  background: rgba(255, 255, 255, 0.1);
   border: 1px dashed #666;
   padding: 20px;
   text-align: center;
-  color: #cccccc; 
+  color: #cccccc;
   border-radius: 8px;
 }
 
@@ -101,10 +106,10 @@
 }
 
 .lecturers h3 {
-  font-size: 22px; 
-  font-weight: bold; 
-  color: #cccccc; 
-  margin-bottom: 10px; 
+  font-size: 22px;
+  font-weight: bold;
+  color: #cccccc;
+  margin-bottom: 10px;
   text-transform: capitalize;
 }
 
@@ -121,4 +126,8 @@
   margin-bottom: 5px;
   font-size: 14px;
   cursor: pointer;
+}
+
+.loader {
+  --loader-size: 10em;
 }

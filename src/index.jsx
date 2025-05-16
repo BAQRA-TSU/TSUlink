@@ -10,6 +10,8 @@ import i18next from 'i18next';
 import { NotificationPopupProvider } from './Services/notificationPopupProvider';
 import NotificationPopup from './Components/NotificationPopup/NotificationPopup';
 import NotificationSnack from './Components/NotificationSnack/NotificationSnack';
+import Loader from './Components/loader/Loader';
+import { Suspense } from 'react';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -21,11 +23,11 @@ root.render(
     <BrowserRouter basename={baseUrl}>
       <NotificationPopupProvider>
         <UserProvider>
-          {/* <Suspense fallback={<Loading/>}> */}
+          <Suspense fallback={<Loader/>}>
           <App />
           <NotificationPopup />
           <NotificationSnack />
-          {/* </Suspense> */}
+          </Suspense>
         </UserProvider>
       </NotificationPopupProvider>
     </BrowserRouter>

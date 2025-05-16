@@ -1,0 +1,18 @@
+.container {
+  display: inline-block;
+  animation: rotation 1s linear infinite;
+  border: 0.3em solid #212121;
+  border-bottom-color: transparent;
+  border-radius: 12.5em;
+  width: var(--loader-size, 5em);
+  height: var(--loader-size, 5em);
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

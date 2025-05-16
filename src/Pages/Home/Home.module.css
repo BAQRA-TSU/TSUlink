@@ -73,3 +73,7 @@
 .even{
   color: #daac78;
 }
+
+.loader{
+  --loader-size: 10em;
+}

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './Subject.module.css';
 import { useNavigate } from 'react-router-dom';
 import { getSubject } from '../../Services/common';
+import Loader from '../../Components/loader/Loader';
 
 const Subject = () => {
   const [newReview, setNewReview] = useState('');
@@ -49,7 +50,7 @@ const Subject = () => {
 
   return (
     <div className={styles.container}>
-      {data && (
+      {data ? (
         <div className={styles.content}>
           <h1 className={styles.subjectName}>{data.name}</h1>
           <p className={styles.description}>{data.description}</p>
@@ -98,6 +99,10 @@ const Subject = () => {
               </button>
             </div>
           </div>
+        </div>
+      ) : (
+        <div className={styles.loader}>
+          <Loader />
         </div>
       )}
     </div>

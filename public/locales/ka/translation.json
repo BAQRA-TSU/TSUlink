@@ -242,16 +242,11 @@
     "ACCOUNT_NOT_EXIST": "არასწორი მომხმარებლის სახელი ან პაროლი",
     "PASSWORD_IS_NOT_MATCH": "არასწორი მომხმარებლის სახელი ან პაროლი",
     "ATTEMPTS_EXCEEDED":"მცდელობების ლიმიტი გადაჭარბებულია, სცადეთ მოგვიანებით",
-    "veriff.is.pending.header": "მიმდინარეობს ვერიფიკაცია",
-    "veriff.is.pending.description": "გთხოვთ დაელოდოთ, მიმდინარეობს ვერიფიკაცია",
-    "veriff.document.sent.succesfuly": "დოკუმენტები წარმატებით გაიგზავნა",
-    "veriff.rejected.header": "საჭიროებს დაზუსტებას",
-    "veriff.rejected.description": "თქვენს მიერ მოწოდებულ ერთ ან რამდენიმე დოკუმენტს სჭირდება ხელახლა ატვირთვა",
     "start.again": "ახლიდან დაწყება",
     "password.updated.succesfuly": "პაროლი წარმატებით განახლდა",
     "password.incorrect": "პაროლი არასწორია",
     "game.added.to.fav": "თამაში წარმატებულად დაემატა ფავორიტებში",
     "game.removed.from.fav": "თამაში წარმატებით წაიშალა ფავორიტებიდან",
-    "account.created": "ანგარიში წარმატებით შეიქმნა გთხოვთ შეხვიდეთ",
+    "account.created": "ანგარიში წარმატებით შეიქმნა, გაიარეთ ავტორიზაცია",
     "account.session.expired": "სესიას ვადა გაუვიდა ცადეთ ხელახლა"
 }

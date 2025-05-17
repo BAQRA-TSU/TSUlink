@@ -56,9 +56,9 @@ const Login = () => {
             showSnackNotificationPopup({ status: 'FAILED', text: 'Sign in failed' });
             return;
           }
-          const { access_token, refresh_token } = resp;
-          SetRefreshToken(refresh_token);
-          SetAccessToken(access_token);
+          const { accessToken, refreshToken } = resp;
+          SetRefreshToken(refreshToken);
+          SetAccessToken(accessToken);
           setUserData(false);
           setWallet(null);
           setChangeUser(true);

@@ -29,19 +29,18 @@ export function PostRegister(userName, password, firstName, lastName) {
 
 export function GetCategories(accessToken) {
   return axios.get(GetCategoriesUrl(), {
-    accessToken: accessToken,
+    headers: { Authorization: `Bearer ${accessToken}` },
   });
 }
 
-
 export function GetSubject(shortName, accessToken) {
-  return axios.get(GetSubjectsUrl()+`/${shortName}`, {
-    accessToken: accessToken,
+  return axios.get(GetSubjectsUrl() + `/${shortName}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
   });
 }
 
 export function GetLecturer(id, accessToken) {
-  return axios.get(GetLecturersUrl()+`/${id}`, {
-    accessToken: accessToken,
+  return axios.get(GetLecturersUrl() + `/${id}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
   });
 }

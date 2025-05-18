@@ -1,13 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styles from './Subject.module.css';
 import { useNavigate } from 'react-router-dom';
 import { getSubject } from '../../Services/common';
 import Loader from '../../Components/loader/Loader';
+import { UserContext } from '../../Services/userContext';
+import { useNotificationPopup } from '../../Services/notificationPopupProvider';
 
 const Subject = () => {
   const [newReview, setNewReview] = useState('');
   const [reviews, setReviews] = useState();
   const [data, setData] = useState();
+  const { logout } = useContext(UserContext);
+  const { showSnackNotificationPopup } = useNotificationPopup();
 
   const history = useNavigate();
 
@@ -25,19 +29,26 @@ const Subject = () => {
     const cachedData = sessionStorage.getItem(`subject-${name}`);
     if (cachedData) {
       setData(JSON.parse(cachedData));
+      setReviews(JSON.parse(cachedData).reviews);
     } else {
       getSubject(name)
         .then((res) => {
           setData(res);
+          setReviews(res.reviews);
           sessionStorage.setItem(`subject-${name}`, JSON.stringify(res));
         })
-        .catch((err) => {
-          console.error(err);
+        .catch((error) => {
+          if (error.message === 'UNAUTHORIZED') {
+            logout();
+          } else {
+            showSnackNotificationPopup({ status: 'FAILED', text: error.message });
+          }
         });
     }
   }, [name]);
 
   const handleAddReview = () => {
+    console.log(reviews);
     if (newReview.trim()) {
       setReviews([...reviews, { name: 'Anonymous', review: newReview }]);
       setNewReview('');

@@ -1,14 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styles from './Home.module.css';
 import { useNavigate } from 'react-router-dom';
 import { getCategories } from '../../Services/common';
 import Loader from '../../Components/loader/Loader';
+import { UserContext } from '../../Services/userContext';
+import { useNotificationPopup } from '../../Services/notificationPopupProvider';
 
 const Home = () => {
   const history = useNavigate();
   const [openCourse, setOpenCourse] = useState(null);
   const [openSemester, setOpenSemester] = useState(null);
   const [data, setData] = useState();
+  const { logout } = useContext(UserContext);
+  const { showSnackNotificationPopup } = useNotificationPopup();
 
   useEffect(() => {
     const cachedData = sessionStorage.getItem(`categories`);
@@ -20,8 +24,12 @@ const Home = () => {
           setData(res);
           sessionStorage.setItem(`categories`, JSON.stringify(res));
         })
-        .catch((err) => {
-          console.error(err);
+        .catch((error) => {
+          if (error.message === 'UNAUTHORIZED') {
+            logout();
+          } else {
+            showSnackNotificationPopup({ status: 'FAILED', text: error.message });
+          }
         });
     }
   }, []);

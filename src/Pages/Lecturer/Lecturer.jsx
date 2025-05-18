@@ -1,14 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styles from './Lecturer.module.css';
 import { useNavigate } from 'react-router-dom';
 import { getLecturer } from '../../Services/common';
 import Loader from '../../Components/loader/Loader';
+import { UserContext } from '../../Services/userContext';
+import { useNotificationPopup } from '../../Services/notificationPopupProvider';
 
 const Lecturer = () => {
   const [newReview, setNewReview] = useState('');
   const [reviews, setReviews] = useState();
   const [data, setData] = useState();
   const history = useNavigate();
+  const { logout } = useContext(UserContext);
+  const { showSnackNotificationPopup } = useNotificationPopup();
 
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -30,8 +34,12 @@ const Lecturer = () => {
           setData(res);
           sessionStorage.setItem(`lecturer-${id}`, JSON.stringify(res));
         })
-        .catch((err) => {
-          console.error(err);
+        .catch((error) => {
+          if (error.message === 'UNAUTHORIZED') {
+            logout();
+          } else {
+            showSnackNotificationPopup({ status: 'FAILED', text: error.message });
+          }
         });
     }
   }, [id]);

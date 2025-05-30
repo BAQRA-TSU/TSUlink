@@ -1,0 +1,140 @@
+.feedContainer {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 30px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.newPostSection {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.textarea {
+  width: 100%;
+  min-height: 70px;
+  border-radius: 8px;
+  border: 1px solid #666;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 15px;
+  padding: 10px;
+  margin-bottom: 10px;
+  resize: vertical;
+}
+
+.addButton {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+
+.addButton:hover {
+  background: #0056b3;
+}
+
+.postsSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.placeholder {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px dashed #666;
+  color: #cccccc;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.postItem {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 18px 20px 12px 20px;
+  color: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  margin-bottom: 5px;
+}
+
+.postHeader {
+  font-size: 17px;
+  font-weight: bold;
+  margin-bottom: 6px;
+  color: #fff;
+}
+
+.postText {
+  font-size: 15px;
+  margin-bottom: 14px;
+  color: #e0e0e0;
+  word-break: break-word;
+}
+
+.commentsSection {
+  margin-top: 8px;
+}
+
+.commentList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px 0;
+}
+
+.commentItem {
+  background: rgba(28, 28, 28, 0.13);
+  padding: 7px 12px;
+  border-radius: 7px;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #fff;
+}
+
+.newComment {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.commentInput {
+  flex: 1;
+  border-radius: 7px;
+  border: 1px solid #666;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 14px;
+  padding: 7px 10px;
+}
+
+.addCommentButton {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 7px 16px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+
+.addCommentButton:hover {
+  background: #0056b3;
+}

@@ -5,6 +5,7 @@ import { getCategories } from '../../Services/common';
 import Loader from '../../Components/loader/Loader';
 import { UserContext } from '../../Services/userContext';
 import { useNotificationPopup } from '../../Services/notificationPopupProvider';
+import Feed from '../../Components/Feed/Feed';
 
 const Home = () => {
   const history = useNavigate();
@@ -40,52 +41,57 @@ const Home = () => {
 
   return (
     <div className={styles.gamesContainer}>
-      {data ? (
-        data.map((course, courseIndex) => (
-          <div key={courseIndex} className={styles.courseContainer}>
-            <button
-              onClick={() => {
-                setOpenCourse(openCourse === courseIndex ? null : courseIndex);
-                setOpenSemester(null);
-              }}
-              className={styles.courseButton}
-            >
-              {course.course}
-            </button>
-            {openCourse === courseIndex && (
-              <div className={styles.semesterContainer}>
-                {course.semesters.map((semester, semesterIndex) => (
-                  <div key={semesterIndex}>
-                    <button
-                      onClick={() => setOpenSemester(openSemester === semesterIndex ? null : semesterIndex)}
-                      className={styles.semesterButton + ' ' + styles[semesterIndex % 2 === 0 ? 'even' : 'odd']}
-                    >
-                      {semester.name}
-                    </button>
-                    {openSemester === semesterIndex && (
-                      <ul className={styles.itemList}>
-                        {semester.items.map((item, itemIndex) => (
-                          <li
-                            key={itemIndex}
-                            onClick={() => handleNavigate(item.shortName)}
-                            className={styles.item + ' ' + styles[semesterIndex % 2 === 0 ? 'even' : 'odd']}
-                          >
-                            {item.name}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
+      <div className={styles.sidebar}>
+        {data ? (
+          data.map((course, courseIndex) => (
+            <div key={courseIndex} className={styles.courseContainer}>
+              <button
+                onClick={() => {
+                  setOpenCourse(openCourse === courseIndex ? null : courseIndex);
+                  setOpenSemester(null);
+                }}
+                className={styles.courseButton}
+              >
+                {course.course}
+              </button>
+              {openCourse === courseIndex && (
+                <div className={styles.semesterContainer}>
+                  {course.semesters.map((semester, semesterIndex) => (
+                    <div key={semesterIndex}>
+                      <button
+                        onClick={() => setOpenSemester(openSemester === semesterIndex ? null : semesterIndex)}
+                        className={styles.semesterButton + ' ' + styles[semesterIndex % 2 === 0 ? 'even' : 'odd']}
+                      >
+                        {semester.name}
+                      </button>
+                      {openSemester === semesterIndex && (
+                        <ul className={styles.itemList}>
+                          {semester.items.map((item, itemIndex) => (
+                            <li
+                              key={itemIndex}
+                              onClick={() => handleNavigate(item.shortName)}
+                              className={styles.item + ' ' + styles[semesterIndex % 2 === 0 ? 'even' : 'odd']}
+                            >
+                              {item.name}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))
+        ) : (
+          <div className={styles.loader}>
+            <Loader />
           </div>
-        ))
-      ) : (
-        <div className={styles.loader}>
-          <Loader />
-        </div>
-      )}
+        )}
+      </div>
+      <div className={styles.mainContent}>
+        <Feed />
+      </div>
     </div>
   );
 };

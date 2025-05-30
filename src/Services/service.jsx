@@ -44,3 +44,29 @@ export function GetLecturer(id, accessToken) {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 }
+
+export function PostLecuter(id, text, accessToken) {
+  return axios.post(
+    GetLecturersUrl() + `/review`,
+    {
+      text: text,
+      lecturerId: id,
+    },
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    }
+  );
+}
+
+export function PostSubject(id, text, accessToken) {
+  return axios.post(
+    GetSubjectsUrl() + `/review`,
+    {
+      text: text,
+      subjectId: id,
+    },
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    }
+  );
+}

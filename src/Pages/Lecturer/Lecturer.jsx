@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import styles from './Lecturer.module.css';
 import { useNavigate } from 'react-router-dom';
-import { getLecturer } from '../../Services/common';
+import { getLecturer, postLecturer } from '../../Services/common';
 import Loader from '../../Components/loader/Loader';
 import { UserContext } from '../../Services/userContext';
 import { useNotificationPopup } from '../../Services/notificationPopupProvider';
@@ -25,14 +25,27 @@ const Lecturer = () => {
   }
 
   useEffect(() => {
-    const cachedData = sessionStorage.getItem(`lecturer-${id}`);
-    if (cachedData) {
-      setData(JSON.parse(cachedData));
-    } else {
-      getLecturer(id)
+    getLecturer(id)
+      .then((res) => {
+        setData(res);
+        setReviews(res.reviews);
+      })
+      .catch((error) => {
+        if (error.message === 'UNAUTHORIZED') {
+          logout();
+        } else {
+          showSnackNotificationPopup({ status: 'FAILED', text: error.message });
+        }
+      });
+  }, [id]);
+
+  const handleAddReview = () => {
+    if (newReview.trim()) {
+      postLecturer(id, newReview)
         .then((res) => {
-          setData(res);
-          sessionStorage.setItem(`lecturer-${id}`, JSON.stringify(res));
+          console.log(res);
+          setReviews([...reviews, { name: 'Anonymous', review: newReview }]);
+          setNewReview('');
         })
         .catch((error) => {
           if (error.message === 'UNAUTHORIZED') {
@@ -41,13 +54,6 @@ const Lecturer = () => {
             showSnackNotificationPopup({ status: 'FAILED', text: error.message });
           }
         });
-    }
-  }, [id]);
-
-  const handleAddReview = () => {
-    if (newReview.trim()) {
-      setReviews([...reviews, { name: 'Anonymous', review: newReview }]);
-      setNewReview('');
     }
   };
 

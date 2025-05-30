@@ -1,122 +1,133 @@
-:root{
-    --body-background: #0D0D0D;
-    --body-home-background:#0D0D0D;
-    height: 100%;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-    --safe-padding-top: env(safe-area-inset-top);
-    --safe-padding-right: env(safe-area-inset-right);
-    --safe-padding-bottom: env(safe-area-inset-bottom);
-    --safe-padding-left: env(safe-area-inset-left);
+:root {
+  --body-background: #181c24;
+  --body-home-background: #181c24;
+  height: 100%;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  --safe-padding-top: env(safe-area-inset-top);
+  --safe-padding-right: env(safe-area-inset-right);
+  --safe-padding-bottom: env(safe-area-inset-bottom);
+  --safe-padding-left: env(safe-area-inset-left);
+  --accent-dark: #0c0c0c;
+  --accent-light: #daedf2;
+  --accent-blue: #11123c;
 }
 
 @font-face {
-    font-family: 'Inter';
-    src: local('Inter'), url('./assets/fonts/inter.ttf');
+  font-family: 'Inter';
+  src: local('Inter'), url('./assets/fonts/inter.ttf');
 }
 
 @font-face {
-    font-family: 'HelveticaMedium';
-    src: local('HelveticaMedium'), url('./assets/fonts/HelveticaMedium.ttf');
+  font-family: 'HelveticaMedium';
+  src: local('HelveticaMedium'), url('./assets/fonts/HelveticaMedium.ttf');
 }
 
 @font-face {
-    font-family: 'HelveticaBold';
-    src: local('HelveticaBold'), url('./assets/fonts/HelveticaBold.ttf');
+  font-family: 'HelveticaBold';
+  src: local('HelveticaBold'), url('./assets/fonts/HelveticaBold.ttf');
 }
 
 @font-face {
-    font-family: 'HelveticaHeavy';
-    src: local('HelveticaHeavy'), url('./assets/fonts/HelveticaHeavy.ttf');
+  font-family: 'HelveticaHeavy';
+  src: local('HelveticaHeavy'), url('./assets/fonts/HelveticaHeavy.ttf');
 }
 
 @font-face {
-    font-family: 'HelveticaRoman';
-    src: local('HelveticaRoman'), url('./assets/fonts/HelveticaRoman.ttf');
+  font-family: 'HelveticaRoman';
+  src: local('HelveticaRoman'), url('./assets/fonts/HelveticaRoman.ttf');
 }
 
 * {
-    outline: none !important;
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  outline: none !important;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 body {
-    overflow-x: hidden!important;
-    background-color: var(--body-background);
-    /* background-image: url(./assets/images/background.png); */
-    background-repeat: no-repeat;
-    font-family: "Inter";
-    color:rgba(255, 255, 255);
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    scrollbar-width: none;
-    height: 100%;
-    width: 100%;
-    position: fixed;
+  overflow-x: hidden !important;
+  background-color: var(--body-background);
+  /* background-image: url(./assets/images/background.png); */
+  background-repeat: no-repeat;
+  font-family: 'Inter';
+  color: rgba(255, 255, 255);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  scrollbar-width: none;
+  height: 100%;
+  width: 100%;
+  position: fixed;
 }
 
-#root{
-    height: 100%;
-    width: 100%;
+#root {
+  height: 100%;
+  width: 100%;
+  background: var(--accent-dark);
 }
-
-
 
 html {
-    overflow: hidden;
-    overscroll-behavior: none;
+  overflow: hidden;
+  overscroll-behavior: none;
 }
-.mainContainer{
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-    position: relative;
-    /* min-height: calc(100vh - 59px - 64px); */
-    /* margin-left: 80px; */
-}
-
-.mainContainer-mobile{
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    /* overflow-y: scroll; */
-    /* min-height: calc(100vh - 59px - 64px); */
-    /* margin-left: 80px; */
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  /* min-height: calc(100vh - 59px - 64px); */
+  /* margin-left: 80px; */
 }
 
-.main-container{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    /* position: fixed; */
-    overflow-y: scroll;
-    scrollbar-width: none;
+.mainContainer-mobile {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  /* overflow-y: scroll; */
+  /* min-height: calc(100vh - 59px - 64px); */
+  /* margin-left: 80px; */
 }
 
-.grecaptcha-badge { visibility: hidden; }
+.main-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* position: fixed; */
+  overflow-y: scroll;
+  scrollbar-width: none;
+  border-left: 2px solid var(--accent-blue);
+  border-right: 2px solid var(--accent-blue);
+  background: #181c24;
+}
 
+.grecaptcha-badge {
+  visibility: hidden;
+}
 
-::-webkit-scrollbar { width: 0px; }
+::-webkit-scrollbar {
+  width: 8px;
+}
 
-::-webkit-scrollbar-track { box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); }
+::-webkit-scrollbar-track {
+  background: var(--accent-dark);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
 
 ::-webkit-scrollbar-thumb {
-    background-color:rgb(40, 44, 57);
+  background-color: var(--accent-blue);
 }
 
 input {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -126,13 +137,31 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 
-@media screen and (max-width: 1200px){
-    .mainContainer{
-        margin-left:0px;
-    }
+/* Accent border for focused input */
+input:focus {
+  outline: 2px solid var(--accent-light);
+  background: var(--accent-dark);
+  color: var(--accent-light);
 }
 
+/* Accent for autofill */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 100px var(--accent-light) inset !important;
+  -webkit-text-fill-color: var(--accent-blue) !important;
+}
+
+body::selection,
+::selection {
+  background: var(--accent-blue);
+  color: var(--accent-light);
+}
+
+@media screen and (max-width: 1200px) {
+  .mainContainer {
+    margin-left: 0px;
+  }
+}

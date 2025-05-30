@@ -102,9 +102,6 @@ html {
   /* position: fixed; */
   overflow-y: scroll;
   scrollbar-width: none;
-  border-left: 2px solid var(--accent-blue);
-  border-right: 2px solid var(--accent-blue);
-  background: #181c24;
 }
 
 .grecaptcha-badge {
@@ -112,7 +109,7 @@ html {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 0px;
 }
 
 ::-webkit-scrollbar-track {
@@ -139,19 +136,6 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type='number'] {
   -moz-appearance: textfield;
-}
-
-/* Accent border for focused input */
-input:focus {
-  outline: 2px solid var(--accent-light);
-  background: var(--accent-dark);
-  color: var(--accent-light);
-}
-
-/* Accent for autofill */
-input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 100px var(--accent-light) inset !important;
-  -webkit-text-fill-color: var(--accent-blue) !important;
 }
 
 body::selection,

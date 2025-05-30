@@ -88,7 +88,7 @@ const Lecturer = () => {
               <li>
                 Phone: <a href={`tel:${data.information.phoneNumber}`}>{data.information.phoneNumber}</a>
               </li>
-              <li>Office: {data.information.office}</li>
+              <li>Office: <a>{data.information.office}</a></li>
             </ul>
           </div>
 

@@ -133,6 +133,7 @@
   color: #e0e6f0;
   margin-bottom: 10px;
   font-size: 14px;
+  resize: vertical;
 }
 
 .addButton {

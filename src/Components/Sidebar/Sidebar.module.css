@@ -1,0 +1,99 @@
+.sidebar {
+  width: 320px;
+  min-width: 240px;
+  max-width: 340px;
+  background: rgba(40, 60, 120, 0.13);
+  border-radius: 16px;
+  padding: 24px 16px 24px 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  height: fit-content;
+  max-height: 80vh;
+  overflow-y: auto;
+  margin-right: 10px;
+  color: #e0e6f0;
+}
+
+.courseContainer {
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.courseButton {
+  cursor: pointer;
+  border: none;
+  color: #e0e6f0;
+  font-size: 20px;
+  text-decoration: none;
+  display: flex;
+  height: 48px;
+  gap: 10px;
+  padding: 8px 12px;
+  align-items: center;
+  border-radius: 12px;
+  background: #23283a;
+  width: 100%;
+  font-family: 'HelveticaBold';
+  transition: background 0.18s;
+}
+
+.courseButton:hover {
+  background: var(--accent-blue);
+  color: var(--accent-light);
+}
+
+.semesterContainer {
+  margin-left: 10px;
+  margin-top: 4px;
+}
+
+.semesterButton {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  color: #e0e6f0;
+  background: #23283a;
+  border-radius: 8px;
+  padding: 10px;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: 'HelveticaBold';
+  transition: background 0.18s;
+}
+
+.semesterButton:hover {
+  background: var(--accent-blue);
+  color: var(--accent-light);
+}
+
+.itemList {
+  margin-left: 10px;
+  list-style: none;
+  padding: 0;
+}
+
+.item {
+  cursor: pointer;
+  margin-top: 7px;
+  color: #e0e6f0;
+  background: #23283a;
+  padding: 7px 12px;
+  border-radius: 7px;
+  font-size: 13px;
+  transition: background 0.18s;
+}
+
+.item:hover {
+  background: var(--accent-blue);
+  color: var(--accent-light);
+}
+
+.loader {
+  --loader-size: 10em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  width: 100%;
+}

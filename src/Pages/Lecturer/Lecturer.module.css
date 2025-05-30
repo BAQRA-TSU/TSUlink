@@ -1,13 +1,13 @@
 .container {
   position: relative;
   width: 100%;
-  min-height: calc(100vh - 90px);
   font-family: 'HelveticaBold';
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 20px;
+  background: #181c24;
 }
 
 .content {
@@ -15,34 +15,50 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: rgba(30, 34, 44, 0.98);
+  border-radius: 18px;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.13);
+  padding: 40px 40px 30px 40px;
+  min-height: 70vh;
+  color: #e0e6f0;
 }
 
 .subjectName {
-  font-size: 32px;
+  font-size: 2.5rem;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
+  color: #f5f6fa;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .description {
-  font-size: 16px;
+  font-size: 1.1rem;
   text-align: center;
   margin-bottom: 30px;
-  line-height: 1.5;
+  line-height: 1.7;
+  color: #bfc7d5;
+  max-width: 600px;
 }
 
 .section {
   width: 80%;
   margin-bottom: 30px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 28px 24px 22px 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
 .section h2 {
-  font-size: 26px;
+  font-size: 1.45rem;
   font-weight: bold;
-  color: #ffffff;
-  margin-bottom: 15px;
-  border-bottom: 2px solid #007bff;
-  padding-bottom: 5px;
+  color: #fff;
+  margin-bottom: 22px;
+  border-bottom: 2px solid var(--accent-blue);
+  padding-bottom: 7px;
   text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .placeholder {
@@ -61,11 +77,12 @@
 }
 
 .reviewItem {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.07);
   color: #ffffff;
   padding: 10px 15px;
   border-radius: 8px;
   margin-bottom: 10px;
+  border: 1px solid #2a2e3a;
 }
 
 .newReview {
@@ -80,36 +97,45 @@
   height: 80px;
   padding: 10px;
   border-radius: 8px;
-  border: 1px solid #666;
-  background: #1a1a1a;
-  color: #ffffff;
+  border: 1.5px solid #2a2e3a;
+  background: #23283a;
+  color: #e0e6f0;
   margin-bottom: 10px;
   font-size: 14px;
+  resize: vertical;
 }
 
 .addButton {
-  background: #007bff;
-  color: #ffffff;
+  background: var(--accent-blue);
+  color: #fff;
   border: none;
   padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
+  margin-top: 2px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: background 0.2s;
 }
 
 .addButton:hover {
-  background: #0056b3;
+  background: var(--accent-dark);
+  color: #fff;
 }
 
 .lecturers {
   margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
 }
 
 .lecturers h3 {
-  font-size: 22px;
-  font-weight: bold;
-  color: #cccccc;
-  margin-bottom: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #e0e6f0;
+  margin-bottom: 8px;
   text-transform: capitalize;
 }
 
@@ -117,14 +143,26 @@
   list-style: none;
   padding: 0;
   margin: 0 0 20px 0;
+  margin-bottom: 0;
 }
 
 .lecturers li {
-  background: rgba(28, 28, 28, 0.1);
+  background: rgba(40, 60, 120, 0.13);
   padding: 10px;
   border-radius: 8px;
   margin-bottom: 5px;
   font-size: 14px;
+  cursor: pointer;
+  color: #e0e6f0;
+  border: 1px solid #2a2e3a;
+  transition:
+    background 0.18s,
+    color 0.18s;
+}
+
+.lecturers li:hover {
+  background: var(--accent-blue);
+  color: #fff;
 }
 
 .subjectList {
@@ -140,6 +178,17 @@
   margin-bottom: 5px;
   font-size: 14px;
   cursor: pointer;
+  background: rgba(40, 60, 120, 0.13);
+  color: #e0e6f0;
+  border: 1px solid #2a2e3a;
+  transition:
+    background 0.18s,
+    color 0.18s;
+}
+
+.subjectItem:hover {
+  background: #007bff;
+  color: #fff;
 }
 
 .contactInfo {
@@ -151,10 +200,11 @@
 .contactInfo li {
   margin-bottom: 10px;
   font-size: 14px;
+  color: #e0e6f0;
 }
 
 .contactInfo a {
-  color: #007bff;
+  color: #b1caf4;
   text-decoration: none;
 }
 
@@ -164,4 +214,9 @@
 
 .loader {
   --loader-size: 10em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  width: 100%;
 }

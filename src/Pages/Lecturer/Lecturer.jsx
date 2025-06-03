@@ -57,8 +57,8 @@ const Lecturer = () => {
     }
   };
 
-  const handleNavigate = (item) => {
-    history(`/subject/?name=${item}`);
+  const handleNavigate = (id) => {
+    history(`/subject/?id=${id}`);
   };
 
   return (
@@ -72,7 +72,7 @@ const Lecturer = () => {
             <h2>Subjects</h2>
             <ul className={styles.subjectList}>
               {data.subjects.map((subject, index) => (
-                <li key={index} onClick={() => handleNavigate(subject.shortName)} className={styles.subjectItem}>
+                <li key={index} onClick={() => handleNavigate(subject.id)} className={styles.subjectItem}>
                   {subject.name}
                 </li>
               ))}

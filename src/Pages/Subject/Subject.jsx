@@ -17,16 +17,16 @@ const Subject = () => {
 
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const name = urlParams.get('name');
+  const id = urlParams.get('id');
 
   const navigate = useNavigate();
 
-  if (!name) {
+  if (!id) {
     navigate('/');
   }
 
   useEffect(() => {
-    getSubject(name)
+    getSubject(id)
       .then((res) => {
         setData(res);
         setReviews(res.reviews);
@@ -38,11 +38,11 @@ const Subject = () => {
           showSnackNotificationPopup({ status: 'FAILED', text: error.message });
         }
       });
-  }, [name]);
+  }, [id]);
 
   const handleAddReview = () => {
     if (newReview.trim()) {
-      postSubject(name, newReview)
+      postSubject(id, newReview)
         .then((res) => {
           console.log(res);
           setReviews([...reviews, { name: 'Anonymous', review: newReview }]);

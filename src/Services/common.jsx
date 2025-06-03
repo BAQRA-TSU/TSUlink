@@ -257,17 +257,17 @@ export const getCategories = async (retried = false) => {
     }
 }
 
-export const getSubject = async (shortName ,retried = false) => {
+export const getSubject = async (id ,retried = false) => {
     const accessToken = GetAccessToken();
     if (accessToken) {
-        return await GetSubject(shortName, accessToken)
+        return await GetSubject(id, accessToken)
             .then((resp) => {
                 return resp.data;
             })
             .catch(async (error) => {
                 if (error.response && error.response.status === 401) {
                     if (!retried) {
-                        return await retry(getSubject(shortName))
+                        return await retry(getSubject(id))
                             .then((resp) => {
                                 return resp;
                             })

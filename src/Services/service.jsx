@@ -33,8 +33,8 @@ export function GetCategories(accessToken) {
   });
 }
 
-export function GetSubject(shortName, accessToken) {
-  return axios.get(GetSubjectsUrl() + `/${shortName}`, {
+export function GetSubject(id, accessToken) {
+  return axios.get(GetSubjectsUrl() + `/${id}`, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 }

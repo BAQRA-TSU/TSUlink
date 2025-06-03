@@ -34,8 +34,8 @@ const Sidebar = () => {
     }
   }, []);
 
-  const handleNavigate = (item) => {
-    history(`/subject/?name=${item}`);
+  const handleNavigate = (id) => {
+    history(`/subject/?id=${id}`);
   };
 
   return (
@@ -67,7 +67,7 @@ const Sidebar = () => {
                         {semester.items.map((item, itemIndex) => (
                           <li
                             key={itemIndex}
-                            onClick={() => handleNavigate(item.shortName)}
+                            onClick={() => handleNavigate(item.id)}
                             className={styles.item}
                           >
                             {item.name}

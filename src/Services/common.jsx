@@ -1,6 +1,6 @@
 import { isMobile } from "react-device-detect";
 import { useMedia } from "use-media";
-import { GetCategories, GetLecturer, GetSubject, PostLecuter, PostRefreshToken, PostSignIn, PostSubject} from "./service";
+import { GetCategories, GetFeed, GetLecturer, GetSubject, PostFeed, PostFeedComment, PostLecuter, PostRefreshToken, PostSignIn, PostSubject} from "./service";
 
 console.log(import.meta.env);
 
@@ -8,6 +8,7 @@ let authUrl = import.meta.env.VITE_APP_AUTH_URL
 let categoriesUrl = import.meta.env.VITE_APP_CATEGORIES_URL
 let lecturersUrl = import.meta.env.VITE_APP_LECTURERS_URL
 let subjectsUrl = import.meta.env.VITE_APP_SUBJECTS_URL
+let feedUrl = import.meta.env.VITE_APP_FEED_URL
 
 
 // const locale = {};
@@ -26,6 +27,11 @@ export const GetLecturersUrl = () => {
 
 export const GetSubjectsUrl = () => {
     return subjectsUrl;
+};
+
+
+export const GetFeedUrl = () => {
+    return feedUrl;
 };
 
 // export const GetStaticContentBaseUrl = () => {
@@ -361,6 +367,99 @@ export const postSubject = async (id, text ,retried = false) => {
                 if (error.response && error.response.status === 401) {
                     if (!retried) {
                         return await retry(postSubject(id, text))
+                            .then((resp) => {
+                                return resp;
+                            })
+                            .catch(() => {
+                                throw new Error("UNAUTHORIZED");
+                            });
+                    } else {
+                        throw new Error("UNAUTHORIZED");
+                    }
+                } else if (error.response) {
+                    throw new Error(error.response.data.message);
+                } else {
+                    return false;
+                }
+            });
+    } else {
+        throw new Error("UNAUTHORIZED");
+    }
+}
+
+export const getFeed = async (offset, limit, retried = false) => {
+    const accessToken = GetAccessToken();
+    if (accessToken) {
+        return await GetFeed(offset, limit, accessToken)
+            .then((resp) => {
+                return resp.data;
+            })
+            .catch(async (error) => {
+                if (error.response && error.response.status === 401) {
+                    if (!retried) {
+                        return await retry(getFeed(offset, limit))
+                            .then((resp) => {
+                                return resp;
+                            })
+                            .catch(() => {
+                                throw new Error("UNAUTHORIZED");
+                            });
+                    } else {
+                        throw new Error("UNAUTHORIZED");
+                    }
+                } else if (error.response) {
+                    throw new Error(error.response.data.message);
+                } else {
+                    return false;
+                }
+            });
+    } else {
+        throw new Error("UNAUTHORIZED");
+    }
+}
+
+export const postFeed = async (content, retried = false) => {
+    const accessToken = GetAccessToken();
+    if (accessToken) {
+        return await PostFeed(content, accessToken)
+            .then((resp) => {
+                return resp.data;
+            })
+            .catch(async (error) => {
+                if (error.response && error.response.status === 401) {
+                    if (!retried) {
+                        return await retry(postFeed(content))
+                            .then((resp) => {
+                                return resp;
+                            })
+                            .catch(() => {
+                                throw new Error("UNAUTHORIZED");
+                            });
+                    } else {
+                        throw new Error("UNAUTHORIZED");
+                    }
+                } else if (error.response) {
+                    throw new Error(error.response.data.message);
+                } else {
+                    return false;
+                }
+            });
+    } else {
+        throw new Error("UNAUTHORIZED");
+    }
+}
+
+export const postFeedComment = async (id, content, retried = false) => {
+    const accessToken = GetAccessToken();
+    if (accessToken) {
+        return await PostFeedComment(id, content, accessToken)
+            .then((resp) => {
+                return resp.data;
+            })
+            .catch(async (error) => {
+                if (error.response && error.response.status === 401) {
+                    if (!retried) {
+                        return await retry(postFeedComment(id, content))
                             .then((resp) => {
                                 return resp;
                             })

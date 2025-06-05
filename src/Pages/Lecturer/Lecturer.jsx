@@ -44,7 +44,7 @@ const Lecturer = () => {
       postLecturer(id, newReview)
         .then((res) => {
           console.log(res);
-          setReviews([...reviews, { name: 'Anonymous', review: newReview }]);
+          setReviews([...reviews, { name: res.name, review: res.review }]);
           setNewReview('');
         })
         .catch((error) => {
@@ -88,7 +88,9 @@ const Lecturer = () => {
               <li>
                 Phone: <a href={`tel:${data.information.phoneNumber}`}>{data.information.phoneNumber}</a>
               </li>
-              <li>Office: <a>{data.information.office}</a></li>
+              <li>
+                Office: <a>{data.information.office}</a>
+              </li>
             </ul>
           </div>
 

@@ -1,4 +1,4 @@
-import { GetAuthUrl, GetCategoriesUrl, GetLecturersUrl, GetSubjectsUrl } from './common';
+import { GetAuthUrl, GetCategoriesUrl, GetFeedUrl, GetLecturersUrl, GetSubjectsUrl } from './common';
 import axios from 'axios';
 
 // let publicKey = import.meta.env.VITE_APP_PUBLIC_KEY;
@@ -64,6 +64,36 @@ export function PostSubject(id, text, accessToken) {
     {
       text: text,
       subjectId: id,
+    },
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    }
+  );
+}
+
+export function GetFeed(offset, limit, accessToken) {
+  return axios.get(GetFeedUrl() + `/with-comments?offset=${offset}&limit=${limit}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+}
+
+export function PostFeed(content, accessToken) {
+  return axios.post(
+    GetFeedUrl(),
+    {
+      content: content,
+    },
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    }
+  );
+}
+
+export function PostFeedComment(id, content, accessToken) {
+  return axios.post(
+    GetFeedUrl() + `/${id}/comments`,
+    {
+      text: content,
     },
     {
       headers: { Authorization: `Bearer ${accessToken}` },

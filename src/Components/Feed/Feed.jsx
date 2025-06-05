@@ -1,21 +1,54 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import styles from './Feed.module.css';
 import { UserContext } from '../../Services/userContext';
+import { useNotificationPopup } from '../../Services/notificationPopupProvider';
+import { getFeed, postFeed, postFeedComment } from '../../Services/common';
 
 const Feed = () => {
-  const { user } = useContext(UserContext) || { user: { name: 'Anonymous' } };
   const [posts, setPosts] = useState([
     // Example post for demonstration
     // { id: 1, name: 'Alice', text: 'Welcome to TSUlink!', comments: [{ name: 'Bob', text: 'Nice post!' }] }
   ]);
   const [newPost, setNewPost] = useState('');
   const [commentInputs, setCommentInputs] = useState({});
+  const { logout } = useContext(UserContext);
+  const { showSnackNotificationPopup } = useNotificationPopup();
+
+  useEffect(() => {
+    getFeed(0, 10)
+      .then((res) => {
+        setPosts(res);
+      })
+      .catch((error) => {
+        if (error.message === 'UNAUTHORIZED') {
+          logout();
+        } else {
+          showSnackNotificationPopup({ status: 'FAILED', text: error.message });
+        }
+      });
+  }, []);
 
   const handleAddPost = () => {
     if (newPost.trim()) {
-      setPosts([{ id: Date.now(), name: user?.name || 'Anonymous', text: newPost, comments: [] }, ...posts]);
-      setNewPost('');
+      postFeed(newPost)
+        .then((res) => {
+          console.log(res);
+          setNewPost('');
+
+          // setPosts([...posts, newPost]);
+        })
+        .catch((error) => {
+          if (error.message === 'UNAUTHORIZED') {
+            logout();
+          } else {
+            showSnackNotificationPopup({ status: 'FAILED', text: error.message });
+          }
+        });
     }
+
+    // if (newPost.trim()) {
+    //   setPosts([{ id: Date.now(), name: user?.name || 'Anonymous', text: newPost, comments: [] }, ...posts]);
+    // }
   };
 
   const handleCommentInput = (postId, value) => {
@@ -25,18 +58,30 @@ const Feed = () => {
   const handleAddComment = (postId) => {
     const commentText = commentInputs[postId];
     if (commentText && commentText.trim()) {
-      setPosts(
-        posts.map((post) =>
-          post.id === postId
-            ? {
-                ...post,
-                comments: [...post.comments, { name: user?.name || 'Anonymous', text: commentText }],
-              }
-            : post
-        )
-      );
-      setCommentInputs({ ...commentInputs, [postId]: '' });
+      postFeedComment(postId, commentText)
+        .then((res) => {
+          console.log(res);
+          setCommentInputs({ ...commentInputs, [postId]: '' });
+          // setPosts([...posts, newPost]);
+        })
+        .catch((error) => {
+          if (error.message === 'UNAUTHORIZED') {
+            logout();
+          } else {
+            showSnackNotificationPopup({ status: 'FAILED', text: error.message });
+          }
+        });
     }
+    //   setPosts(
+    //     posts.map((post) =>
+    //       post.id === postId
+    //         ? {
+    //             ...post,
+    //             comments: [...post.comments, { name: user?.name || 'Anonymous', text: commentText }],
+    //           }
+    //         : post
+    //     )
+    //   );
   };
 
   return (

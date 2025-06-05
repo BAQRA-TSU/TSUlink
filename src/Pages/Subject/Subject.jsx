@@ -45,7 +45,7 @@ const Subject = () => {
       postSubject(id, newReview)
         .then((res) => {
           console.log(res);
-          setReviews([...reviews, { name: 'Anonymous', review: newReview }]);
+          setReviews([...reviews, { name: res.name, review: res.review }]);
           setNewReview('');
         })
         .catch((error) => {

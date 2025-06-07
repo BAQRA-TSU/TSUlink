@@ -34,7 +34,7 @@ const Feed = () => {
         .then((res) => {
           console.log(res);
           setNewPost('');
-          setPosts([{ id: Date.now(), name: res.name, text: res.content, comments: [] }, ...posts]);
+          setPosts([{ id: res.id, name: res.name, text: res.text, comments: [] }, ...posts]);
         })
         .catch((error) => {
           if (error.message === 'UNAUTHORIZED') {

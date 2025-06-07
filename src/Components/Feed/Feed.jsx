@@ -34,8 +34,7 @@ const Feed = () => {
         .then((res) => {
           console.log(res);
           setNewPost('');
-
-          // setPosts([...posts, newPost]);
+          setPosts([{ id: Date.now(), name: res.name, text: res.content, comments: [] }, ...posts]);
         })
         .catch((error) => {
           if (error.message === 'UNAUTHORIZED') {
@@ -62,7 +61,16 @@ const Feed = () => {
         .then((res) => {
           console.log(res);
           setCommentInputs({ ...commentInputs, [postId]: '' });
-          // setPosts([...posts, newPost]);
+          setPosts(
+            posts.map((post) =>
+              post.id === postId
+                ? {
+                    ...post,
+                    comments: [...post.comments, { name: res.name, text: res.text }],
+                  }
+                : post
+            )
+          );
         })
         .catch((error) => {
           if (error.message === 'UNAUTHORIZED') {
@@ -72,16 +80,6 @@ const Feed = () => {
           }
         });
     }
-    //   setPosts(
-    //     posts.map((post) =>
-    //       post.id === postId
-    //         ? {
-    //             ...post,
-    //             comments: [...post.comments, { name: user?.name || 'Anonymous', text: commentText }],
-    //           }
-    //         : post
-    //     )
-    //   );
   };
 
   return (

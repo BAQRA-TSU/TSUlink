@@ -28,6 +28,7 @@ jobs:
           VITE_APP_CATEGORIES_URL: https://tsulink-baacgndngcgdfhbp.centralus-01.azurewebsites.net/api/Categories
           VITE_APP_LECTURERS_URL: https://tsulink-baacgndngcgdfhbp.centralus-01.azurewebsites.net/api/Lecturers
           VITE_APP_SUBJECTS_URL: https://tsulink-baacgndngcgdfhbp.centralus-01.azurewebsites.net/api/Subjects
+          VITE_APP_FEED_URL: https://tsulink-baacgndngcgdfhbp.centralus-01.azurewebsites.net/api/Feed
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GREEN_SEA_0A53F9B10 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)

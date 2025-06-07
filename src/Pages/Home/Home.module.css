@@ -18,3 +18,31 @@
   align-items: center;
   color: #e0e6f0;
 }
+
+@media screen and (max-width: 900px) {
+  .gamesContainer {
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 24px;
+    align-items: stretch;
+  }
+  .mainContent {
+    width: 100vw;
+    min-width: 0;
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .gamesContainer {
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 8px;
+    align-items: stretch;
+  }
+  .mainContent {
+    width: 100vw;
+    min-width: 0;
+    padding: 0;
+  }
+}

@@ -97,3 +97,33 @@
   min-height: 60vh;
   width: 100%;
 }
+
+@media screen and (max-width: 900px) {
+  .sidebar {
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    position: relative;
+    width: 90vw;
+    min-width: 0;
+    max-width: 95vw;
+    border-radius: 12px;
+    padding: 16px 6px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .sidebar {
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    position: relative;
+    width: 98vw;
+    min-width: 0;
+    max-width: 99vw;
+    border-radius: 8px;
+    padding: 10px 2px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.14);
+  }
+}

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import styles from './Subject.module.css';
 import { useNavigate } from 'react-router-dom';
-import { getSubject, postSubject } from '../../Services/common';
+import { getSubject, postSubject, postFile } from '../../Services/common';
 import Loader from '../../Components/loader/Loader';
 import { UserContext } from '../../Services/userContext';
 import { useNotificationPopup } from '../../Services/notificationPopupProvider';
@@ -10,6 +10,7 @@ const Subject = () => {
   const [newReview, setNewReview] = useState('');
   const [reviews, setReviews] = useState();
   const [data, setData] = useState();
+  const [uploading, setUploading] = useState(false);
   const { logout } = useContext(UserContext);
   const { showSnackNotificationPopup } = useNotificationPopup();
 
@@ -26,6 +27,10 @@ const Subject = () => {
   }
 
   useEffect(() => {
+    subjectFetch();
+  }, [id]);
+
+  const subjectFetch = () => {
     getSubject(id)
       .then((res) => {
         setData(res);
@@ -38,13 +43,12 @@ const Subject = () => {
           showSnackNotificationPopup({ status: 'FAILED', text: error.message });
         }
       });
-  }, [id]);
+  };
 
   const handleAddReview = () => {
     if (newReview.trim()) {
       postSubject(id, newReview)
         .then((res) => {
-          console.log(res);
           setReviews([...reviews, { name: res.name, review: res.review }]);
           setNewReview('');
         })
@@ -60,6 +64,28 @@ const Subject = () => {
 
   const handleNavigate = (item) => {
     history(`/lecturer/?id=${item}`);
+  };
+
+  // File upload handler
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploading(true);
+    postFile(id, file)
+      .then(() => {
+        subjectFetch();
+        showSnackNotificationPopup({ status: 'COMPLETED', text: 'File uploaded successfully.' });
+      })
+      .catch((error) => {
+        if (error.message === 'UNAUTHORIZED') {
+          logout();
+        } else {
+          showSnackNotificationPopup({ status: 'FAILED', text: error.message });
+        }
+      })
+      .finally(() => {
+        setUploading(false);
+      });
   };
 
   return (
@@ -94,7 +120,33 @@ const Subject = () => {
 
             <div className={styles.section}>
               <h2>Files and Conspects</h2>
-              <div className={styles.placeholder}>[Placeholder for files/conspects]</div>
+              {/* File upload UI */}
+              <div className={styles.fileUpload}>
+                <input
+                  type="file"
+                  id="fileInput"
+                  style={{ display: 'none' }}
+                  onChange={handleFileChange}
+                  disabled={uploading}
+                />
+                <label htmlFor="fileInput" className={styles.uploadButton}>
+                  {uploading ? 'Uploading...' : 'Upload File'}
+                </label>
+              </div>
+              {/* List of files */}
+              <ul className={styles.fileList}>
+                {data.files && data.files.length > 0 ? (
+                  data.files.map((file, idx) => (
+                    <li key={idx} className={styles.fileItem}>
+                      <a href={file.fileUrl} target="_blank" rel="noopener noreferrer" download={file.fileName}>
+                        {file.fileName}
+                      </a>
+                    </li>
+                  ))
+                ) : (
+                  <div className={styles.placeholder}>No files uploaded yet.</div>
+                )}
+              </ul>
             </div>
 
             <div className={styles.section}>

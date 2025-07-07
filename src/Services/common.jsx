@@ -1,6 +1,6 @@
 import { isMobile } from "react-device-detect";
 import { useMedia } from "use-media";
-import { GetCategories, GetFeed, GetLecturer, GetSubject, PostFeed, PostFeedComment, PostLecuter, PostRefreshToken, PostSignIn, PostSubject} from "./service";
+import { GetCategories, GetFeed, GetLecturer, GetSubject, PostFeed, PostFeedComment, PostFile, PostLecuter, PostRefreshToken, PostSignIn, PostSubject} from "./service";
 
 console.log(import.meta.env);
 
@@ -367,6 +367,37 @@ export const postSubject = async (id, text ,retried = false) => {
                 if (error.response && error.response.status === 401) {
                     if (!retried) {
                         return await retry(postSubject(id, text))
+                            .then((resp) => {
+                                return resp;
+                            })
+                            .catch(() => {
+                                throw new Error("UNAUTHORIZED");
+                            });
+                    } else {
+                        throw new Error("UNAUTHORIZED");
+                    }
+                } else if (error.response) {
+                    throw new Error(error.response.data.message);
+                } else {
+                    return false;
+                }
+            });
+    } else {
+        throw new Error("UNAUTHORIZED");
+    }
+}
+
+export const postFile = async (id, file ,retried = false) => {
+    const accessToken = GetAccessToken();
+    if (accessToken) {
+        return await PostFile(id, file, accessToken)
+            .then((resp) => {
+                return resp.data;
+            })
+            .catch(async (error) => {
+                if (error.response && error.response.status === 401) {
+                    if (!retried) {
+                        return await retry(postFile(id, file))
                             .then((resp) => {
                                 return resp;
                             })

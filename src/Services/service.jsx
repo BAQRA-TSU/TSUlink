@@ -71,6 +71,17 @@ export function PostSubject(id, text, accessToken) {
   );
 }
 
+export function PostFile(id, file, accessToken) {
+  const form = new FormData();
+  form.append('file', file);  
+  return axios.post(GetSubjectsUrl() + `/${id}/upload-db`, form, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+}
+
 export function GetFeed(offset, limit, accessToken) {
   return axios.get(GetFeedUrl() + `/with-comments?offset=${offset}&limit=${limit}`, {
     headers: { Authorization: `Bearer ${accessToken}` },

@@ -73,12 +73,18 @@ export function PostSubject(id, text, accessToken) {
 
 export function PostFile(id, file, accessToken) {
   const form = new FormData();
-  form.append('file', file);  
+  form.append('file', file, file.name);
   return axios.post(GetSubjectsUrl() + `/${id}/upload-db`, form, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'multipart/form-data',
     },
+  });
+}
+
+export function GetFile(subjectId, fileId, accessToken, axiosConfig = {}) {
+  return axios.get(GetSubjectsUrl() + `/${subjectId}/files/${fileId}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    ...axiosConfig,
   });
 }
 

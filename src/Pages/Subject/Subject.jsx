@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import styles from './Subject.module.css';
 import { useNavigate } from 'react-router-dom';
-import { getSubject, postSubject, postFile } from '../../Services/common';
+import { getSubject, postSubject, postFile, getFile } from '../../Services/common';
 import Loader from '../../Components/loader/Loader';
 import { UserContext } from '../../Services/userContext';
 import { useNotificationPopup } from '../../Services/notificationPopupProvider';
@@ -11,6 +11,7 @@ const Subject = () => {
   const [reviews, setReviews] = useState();
   const [data, setData] = useState();
   const [uploading, setUploading] = useState(false);
+  const [downloadingFileId, setDownloadingFileId] = useState(null);
   const { logout } = useContext(UserContext);
   const { showSnackNotificationPopup } = useNotificationPopup();
 
@@ -88,6 +89,46 @@ const Subject = () => {
       });
   };
 
+  const handleDownloadFile = (file) => {
+    const match = file.fileUrl.match(/\/subjects\/(\d+)\/files\/(\d+)/);
+    if (!match) {
+      showSnackNotificationPopup({ status: 'FAILED', text: 'Invalid file URL.' });
+      return;
+    }
+    const subjectId = match[1];
+    const fileId = match[2];
+    setDownloadingFileId(fileId);
+    getFile(subjectId, fileId, false, { responseType: 'blob' })
+      .then((response) => {
+        let filename = file.fileName;
+        const disposition = response.headers && response.headers['content-disposition'];
+        if (disposition) {
+          const matchFilename = disposition.match(/filename\*?=(?:UTF-8'')?([^;]+)/i);
+          if (matchFilename && matchFilename[1]) {
+            try {
+              filename = decodeURIComponent(matchFilename[1].replace(/['"]/g, ''));
+            } catch {
+              filename = matchFilename[1].replace(/['"]/g, '');
+            }
+          }
+        }
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', filename);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch(() => {
+        showSnackNotificationPopup({ status: 'FAILED', text: 'Failed to download file.' });
+      })
+      .finally(() => {
+        setDownloadingFileId(null);
+      });
+  };
+
   return (
     <div className={styles.container}>
       {data ? (
@@ -97,7 +138,6 @@ const Subject = () => {
               <h1 className={styles.subjectName}>{data.name}</h1>
               <p className={styles.description}>{data.description}</p>
             </div>
-            {/* You can add an image or icon here if needed */}
           </div>
           <div className={styles.sectionsWrapper}>
             <div className={styles.section}>
@@ -120,7 +160,6 @@ const Subject = () => {
 
             <div className={styles.section}>
               <h2>Files and Conspects</h2>
-              {/* File upload UI */}
               <div className={styles.fileUpload}>
                 <input
                   type="file"
@@ -133,16 +172,25 @@ const Subject = () => {
                   {uploading ? 'Uploading...' : 'Upload File'}
                 </label>
               </div>
-              {/* List of files */}
               <ul className={styles.fileList}>
                 {data.files && data.files.length > 0 ? (
-                  data.files.map((file, idx) => (
-                    <li key={idx} className={styles.fileItem}>
-                      <a href={file.fileUrl} target="_blank" rel="noopener noreferrer" download={file.fileName}>
-                        {file.fileName}
-                      </a>
-                    </li>
-                  ))
+                  data.files.map((file, idx) => {
+                    const fileId = file.fileUrl.match(/\/subjects\/\d+\/files\/(\d+)/)?.[1];
+                    const isLoading = downloadingFileId === fileId;
+                    return (
+                      <li key={idx} className={styles.fileItem}>
+                        <button
+                          className={styles.downloadButton}
+                          onClick={() => handleDownloadFile(file)}
+                          type="button"
+                          disabled={isLoading}
+                        >
+                          {isLoading && <span className={styles.downloadSpinner}></span>}
+                          {isLoading ? 'Downloading...' : file.fileName}
+                        </button>
+                      </li>
+                    );
+                  })
                 ) : (
                   <div className={styles.placeholder}>No files uploaded yet.</div>
                 )}

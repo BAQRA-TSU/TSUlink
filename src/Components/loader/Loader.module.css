@@ -1,7 +1,7 @@
 .container {
   display: inline-block;
   animation: rotation 1s linear infinite;
-  border: 0.3em solid #212121;
+  border: 0.3em solid #7ecbff;
   border-bottom-color: transparent;
   border-radius: 12.5em;
   width: var(--loader-size, 5em);

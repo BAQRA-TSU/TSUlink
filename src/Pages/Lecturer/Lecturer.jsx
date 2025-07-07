@@ -5,8 +5,10 @@ import { getLecturer, postLecturer } from '../../Services/common';
 import Loader from '../../Components/loader/Loader';
 import { UserContext } from '../../Services/userContext';
 import { useNotificationPopup } from '../../Services/notificationPopupProvider';
+import { useTranslation } from 'react-i18next';
 
 const Lecturer = () => {
+  const [t] = useTranslation();
   const [newReview, setNewReview] = useState('');
   const [reviews, setReviews] = useState();
   const [data, setData] = useState();
@@ -69,7 +71,7 @@ const Lecturer = () => {
           <p className={styles.description}>{data.description}</p>
 
           <div className={styles.section}>
-            <h2>Subjects</h2>
+            <h2>{t('lecturer.subjects')}</h2>
             <ul className={styles.subjectList}>
               {data.subjects.map((subject, index) => (
                 <li key={index} onClick={() => handleNavigate(subject.id)} className={styles.subjectItem}>
@@ -80,22 +82,23 @@ const Lecturer = () => {
           </div>
 
           <div className={styles.section}>
-            <h2>Contact Information</h2>
+            <h2>{t('lecturer.contact.info')}</h2>
             <ul className={styles.contactInfo}>
               <li>
-                Email: <a href={`mailto:${data.information.email}`}>{data.information.email}</a>
+                {t('lecturer.email')}: <a href={`mailto:${data.information.email}`}>{data.information.email}</a>
               </li>
               <li>
-                Phone: <a href={`tel:${data.information.phoneNumber}`}>{data.information.phoneNumber}</a>
+                {t('lecturer.phone')}:{' '}
+                <a href={`tel:${data.information.phoneNumber}`}>{data.information.phoneNumber}</a>
               </li>
               <li>
-                Office: <a>{data.information.office}</a>
+                {t('lecturer.office')}: <a>{data.information.office}</a>
               </li>
             </ul>
           </div>
 
           <div className={styles.section}>
-            <h2>Reviews</h2>
+            <h2>{t('lecturer.reviews')}</h2>
             <ul className={styles.reviewList}>
               {reviews &&
                 reviews.map((review, index) => (
@@ -109,10 +112,10 @@ const Lecturer = () => {
                 className={styles.textarea}
                 value={newReview}
                 onChange={(e) => setNewReview(e.target.value)}
-                placeholder="Write your review here..."
+                placeholder={t('lecturer.write.review')}
               />
               <button className={styles.addButton} onClick={handleAddReview}>
-                Add Review
+                {t('lecturer.add.review')}
               </button>
             </div>
           </div>

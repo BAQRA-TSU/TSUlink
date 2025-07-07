@@ -5,8 +5,10 @@ import { getSubject, postSubject, postFile, getFile } from '../../Services/commo
 import Loader from '../../Components/loader/Loader';
 import { UserContext } from '../../Services/userContext';
 import { useNotificationPopup } from '../../Services/notificationPopupProvider';
+import { useTranslation } from 'react-i18next';
 
 const Subject = () => {
+  const [t] = useTranslation();
   const [newReview, setNewReview] = useState('');
   const [reviews, setReviews] = useState();
   const [data, setData] = useState();
@@ -141,7 +143,7 @@ const Subject = () => {
           </div>
           <div className={styles.sectionsWrapper}>
             <div className={styles.section}>
-              <h2>Lecturers</h2>
+              <h2>{t('subject.lecturers')}</h2>
               <div className={styles.lecturers}>
                 {Object.keys(data.lecturers).map((category) => (
                   <div key={category}>
@@ -159,7 +161,7 @@ const Subject = () => {
             </div>
 
             <div className={styles.section}>
-              <h2>Files and Conspects</h2>
+              <h2>{t('subject.files')}</h2>
               <div className={styles.fileUpload}>
                 <input
                   type="file"
@@ -169,7 +171,7 @@ const Subject = () => {
                   disabled={uploading}
                 />
                 <label htmlFor="fileInput" className={styles.uploadButton}>
-                  {uploading ? 'Uploading...' : 'Upload File'}
+                  {uploading ? t('subject.uploading') : t('subject.upload.file')}
                 </label>
               </div>
               <ul className={styles.fileList}>
@@ -186,19 +188,19 @@ const Subject = () => {
                           disabled={isLoading}
                         >
                           {isLoading && <span className={styles.downloadSpinner}></span>}
-                          {isLoading ? 'Downloading...' : file.fileName}
+                          {isLoading ? t('subject.downloading') : file.fileName}
                         </button>
                       </li>
                     );
                   })
                 ) : (
-                  <div className={styles.placeholder}>No files uploaded yet.</div>
+                  <div className={styles.placeholder}>{t('subject.no.files')}</div>
                 )}
               </ul>
             </div>
 
             <div className={styles.section}>
-              <h2>Reviews</h2>
+              <h2>{t('subject.reviews')}</h2>
               <ul className={styles.reviewList}>
                 {reviews &&
                   reviews.map((review, index) => (
@@ -212,10 +214,10 @@ const Subject = () => {
                   className={styles.textarea}
                   value={newReview}
                   onChange={(e) => setNewReview(e.target.value)}
-                  placeholder="Write your review here..."
+                  placeholder={t('subject.write.review')}
                 />
                 <button className={styles.addButton} onClick={handleAddReview}>
-                  Add Review
+                  {t('subject.add.review')}
                 </button>
               </div>
             </div>

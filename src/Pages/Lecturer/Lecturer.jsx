@@ -46,7 +46,7 @@ const Lecturer = () => {
       postLecturer(id, newReview)
         .then((res) => {
           console.log(res);
-          setReviews([...reviews, { name: res.name, review: res.review }]);
+          setReviews([...reviews, { name: res.name, review: res.review, canDelete: res.canDelete }]);
           setNewReview('');
         })
         .catch((error) => {

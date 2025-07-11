@@ -74,7 +74,10 @@ const Feed = () => {
               post.id === postId
                 ? {
                     ...post,
-                    comments: [...post.comments, { name: res.name, text: res.text }],
+                    comments: [
+                      ...post.comments,
+                      { name: res.name, text: res.text, id: res.id, canDelete: res.canDelete },
+                    ],
                   }
                 : post
             )

@@ -59,7 +59,7 @@ const Subject = () => {
     if (newReview.trim()) {
       postSubject(id, newReview)
         .then((res) => {
-          setReviews([...reviews, { name: res.name, review: res.review }]);
+          setReviews([...reviews, { name: res.name, review: res.review, canDelete: res.canDelete }]);
           setNewReview('');
         })
         .catch((error) => {
@@ -76,7 +76,6 @@ const Subject = () => {
     history(`/lecturer/?id=${item}`);
   };
 
-  // File upload handler
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;

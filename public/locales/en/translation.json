@@ -77,6 +77,8 @@
   "feed.no.posts": "No posts yet. Be the first to post!",
   "feed.write.comment": "Write a comment...",
   "feed.comment": "Comment",
+  "feed.delete": "Delete",
+  "feed.approve": "Approve",
   "subject.lecturers": "Lecturers",
   "subject.files": "Files and Conspects",
   "subject.uploading": "Uploading...",

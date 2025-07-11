@@ -78,6 +78,8 @@
   "feed.no.posts": "ჯერჯერობით პოსტები არ არის. იყავით პირველი!",
   "feed.write.comment": "დაწერეთ კომენტარი...",
   "feed.comment": "კომენტარი",
+  "feed.delete": "წაშლა",
+  "feed.approve": "დადასტურება",
   "subject.lecturers": "ლექტორები",
   "subject.files": "ფაილები და კონსპექტები",
   "subject.uploading": "იტვირთება...",

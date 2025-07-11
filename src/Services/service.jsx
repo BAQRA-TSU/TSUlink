@@ -106,6 +106,18 @@ export function PostFeed(content, accessToken) {
   );
 }
 
+export function PostDelete(id, accessToken) {
+  return axios.delete(GetFeedUrl() + `/${id}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+}
+
+export function PostApprove(id, accessToken) {
+  return axios.post(GetFeedUrl() + `/${id}/approve`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+}
+
 export function PostFeedComment(id, content, accessToken) {
   return axios.post(
     GetFeedUrl() + `/${id}/comments`,
@@ -116,4 +128,10 @@ export function PostFeedComment(id, content, accessToken) {
       headers: { Authorization: `Bearer ${accessToken}` },
     }
   );
+}
+
+export function PostFeedCommentDelete(id, accessToken) {
+  return axios.delete(GetFeedUrl() + `/comments/${id}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
 }

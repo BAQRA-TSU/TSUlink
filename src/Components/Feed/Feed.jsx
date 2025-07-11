@@ -2,16 +2,20 @@ import { useState, useContext, useEffect } from 'react';
 import styles from './Feed.module.css';
 import { UserContext } from '../../Services/userContext';
 import { useNotificationPopup } from '../../Services/notificationPopupProvider';
-import { getFeed, postFeed, postFeedComment } from '../../Services/common';
+import {
+  getFeed,
+  postApprove,
+  postDelete,
+  postFeed,
+  postFeedComment,
+  postFeedCommentDelete,
+} from '../../Services/common';
 import Loader from '../../Components/loader/Loader';
 import { useTranslation } from 'react-i18next';
 
 const Feed = () => {
   const [t] = useTranslation();
-  const [posts, setPosts] = useState([
-    // Example post for demonstration
-    // { id: 1, name: 'Alice', text: 'Welcome to TSUlink!', comments: [{ name: 'Bob', text: 'Nice post!' }] }
-  ]);
+  const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState('');
   const [commentInputs, setCommentInputs] = useState({});
   const [loading, setLoading] = useState(true);
@@ -52,10 +56,6 @@ const Feed = () => {
           }
         });
     }
-
-    // if (newPost.trim()) {
-    //   setPosts([{ id: Date.now(), name: user?.name || 'Anonymous', text: newPost, comments: [] }, ...posts]);
-    // }
   };
 
   const handleCommentInput = (postId, value) => {
@@ -90,6 +90,57 @@ const Feed = () => {
     }
   };
 
+  const handleDeletePost = (postId) => {
+    postDelete(postId)
+      .then(() => {
+        setPosts(posts.filter((post) => post.id !== postId));
+      })
+      .catch((error) => {
+        if (error.message === 'UNAUTHORIZED') {
+          logout();
+        } else {
+          showSnackNotificationPopup({ status: 'FAILED', text: error.message });
+        }
+      });
+  };
+
+  const handleApprovePost = (postId) => {
+    postApprove(postId)
+      .then(() => {
+        setPosts(posts.map((post) => (post.id === postId ? { ...post, isApproved: true } : post)));
+      })
+      .catch((error) => {
+        if (error.message === 'UNAUTHORIZED') {
+          logout();
+        } else {
+          showSnackNotificationPopup({ status: 'FAILED', text: error.message });
+        }
+      });
+  };
+
+  const handleDeleteComment = (postId, commentId) => {
+    postFeedCommentDelete(commentId)
+      .then(() => {
+        setPosts(
+          posts.map((post) =>
+            post.id === postId
+              ? {
+                  ...post,
+                  comments: post.comments.filter((comment) => comment.id !== commentId),
+                }
+              : post
+          )
+        );
+      })
+      .catch((error) => {
+        if (error.message === 'UNAUTHORIZED') {
+          logout();
+        } else {
+          showSnackNotificationPopup({ status: 'FAILED', text: error.message });
+        }
+      });
+  };
+
   return (
     <div className={styles.feedContainer}>
       <div className={styles.newPostSection}>
@@ -113,13 +164,32 @@ const Feed = () => {
               <div key={post.id} className={styles.postItem}>
                 <div className={styles.postHeader}>
                   <strong>{post.name}</strong>
+                  {post.canDelete && (
+                    <button className={styles.deleteButton} onClick={() => handleDeletePost(post.id)}>
+                      {t('feed.delete')}
+                    </button>
+                  )}
+                  {/* Show approve button if isApproved is false */}
+                  {post.isApproved === false && (
+                    <button className={styles.approveButton} onClick={() => handleApprovePost(post.id)}>
+                      {t('feed.approve')}
+                    </button>
+                  )}
                 </div>
                 <div className={styles.postText}>{post.text}</div>
                 <div className={styles.commentsSection}>
                   <ul className={styles.commentList}>
-                    {post.comments.map((comment, idx) => (
-                      <li key={idx} className={styles.commentItem}>
+                    {post.comments.map((comment) => (
+                      <li key={comment.id} className={styles.commentItem}>
                         <strong>{comment.name}:</strong> {comment.text}
+                        {comment.canDelete && (
+                          <button
+                            className={styles.deleteButton}
+                            onClick={() => handleDeleteComment(post.id, comment.id)}
+                          >
+                            {t('feed.delete')}
+                          </button>
+                        )}
                       </li>
                     ))}
                   </ul>

@@ -6,8 +6,11 @@ import {
   GetFile,
   GetLecturer,
   GetSubject,
+  PostApprove,
+  PostDelete,
   PostFeed,
   PostFeedComment,
+  PostFeedCommentDelete,
   PostFile,
   PostLecuter,
   PostRefreshToken,
@@ -514,6 +517,68 @@ export const postFeed = async (content, retried = false) => {
   }
 };
 
+export const postDelete = async (id, retried = false) => {
+  const accessToken = GetAccessToken();
+  if (accessToken) {
+    return await PostDelete(id, accessToken)
+      .then((resp) => {
+        return resp.data;
+      })
+      .catch(async (error) => {
+        if (error.response && error.response.status === 401) {
+          if (!retried) {
+            return await retry(postDelete(id))
+              .then((resp) => {
+                return resp;
+              })
+              .catch(() => {
+                throw new Error('UNAUTHORIZED');
+              });
+          } else {
+            throw new Error('UNAUTHORIZED');
+          }
+        } else if (error.response) {
+          throw new Error(error.response.data.message);
+        } else {
+          return false;
+        }
+      });
+  } else {
+    throw new Error('UNAUTHORIZED');
+  }
+};
+
+export const postApprove = async (id, retried = false) => {
+  const accessToken = GetAccessToken();
+  if (accessToken) {
+    return await PostApprove(id, accessToken)
+      .then((resp) => {
+        return resp.data;
+      })
+      .catch(async (error) => {
+        if (error.response && error.response.status === 401) {
+          if (!retried) {
+            return await retry(postApprove(id))
+              .then((resp) => {
+                return resp;
+              })
+              .catch(() => {
+                throw new Error('UNAUTHORIZED');
+              });
+          } else {
+            throw new Error('UNAUTHORIZED');
+          }
+        } else if (error.response) {
+          throw new Error(error.response.data.message);
+        } else {
+          return false;
+        }
+      });
+  } else {
+    throw new Error('UNAUTHORIZED');
+  }
+};
+
 export const postFeedComment = async (id, content, retried = false) => {
   const accessToken = GetAccessToken();
   if (accessToken) {
@@ -525,6 +590,37 @@ export const postFeedComment = async (id, content, retried = false) => {
         if (error.response && error.response.status === 401) {
           if (!retried) {
             return await retry(postFeedComment(id, content))
+              .then((resp) => {
+                return resp;
+              })
+              .catch(() => {
+                throw new Error('UNAUTHORIZED');
+              });
+          } else {
+            throw new Error('UNAUTHORIZED');
+          }
+        } else if (error.response) {
+          throw new Error(error.response.data.message);
+        } else {
+          return false;
+        }
+      });
+  } else {
+    throw new Error('UNAUTHORIZED');
+  }
+};
+
+export const postFeedCommentDelete = async (id, retried = false) => {
+  const accessToken = GetAccessToken();
+  if (accessToken) {
+    return await PostFeedCommentDelete(id, accessToken)
+      .then((resp) => {
+        return resp.data;
+      })
+      .catch(async (error) => {
+        if (error.response && error.response.status === 401) {
+          if (!retried) {
+            return await retry(postFeedCommentDelete(id))
               .then((resp) => {
                 return resp;
               })

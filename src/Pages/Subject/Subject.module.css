@@ -286,15 +286,46 @@
   margin-right: 8px;
 }
 
+.deleteButton {
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  margin-left: 10px;
+  transition: background 0.2s;
+}
+
+.deleteButton:hover {
+  background: #a71d2a;
+}
+
+.approveButton {
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  margin-left: 10px;
+  transition: background 0.2s;
+}
+
+.approveButton:hover {
+  background: #1e7e34;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
   }
 }
 
-
-  @media (max-width: 768px) {
-    .subjectName{
-      font-size: 2rem;
-    }
+@media (max-width: 768px) {
+  .subjectName {
+    font-size: 2rem;
   }
+}

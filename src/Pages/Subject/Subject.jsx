@@ -1,7 +1,14 @@
 import { useContext, useEffect, useState } from 'react';
 import styles from './Subject.module.css';
 import { useNavigate } from 'react-router-dom';
-import { getSubject, postSubject, postFile, getFile } from '../../Services/common';
+import {
+  getSubject,
+  postSubject,
+  postFile,
+  getFile,
+  postSubjectApprove,
+  deleteSubjectReview,
+} from '../../Services/common';
 import Loader from '../../Components/loader/Loader';
 import { UserContext } from '../../Services/userContext';
 import { useNotificationPopup } from '../../Services/notificationPopupProvider';
@@ -131,6 +138,34 @@ const Subject = () => {
       });
   };
 
+  const handleDeleteReview = (reviewId) => {
+    deleteSubjectReview(reviewId)
+      .then(() => {
+        setReviews(reviews.filter((review) => review.id !== reviewId));
+      })
+      .catch((error) => {
+        if (error.message === 'UNAUTHORIZED') {
+          logout();
+        } else {
+          showSnackNotificationPopup({ status: 'FAILED', text: error.message });
+        }
+      });
+  };
+
+  const handleApproveReview = (reviewId) => {
+    postSubjectApprove(reviewId)
+      .then(() => {
+        setReviews(reviews.map((review) => (review.id === reviewId ? { ...review, isApproved: true } : review)));
+      })
+      .catch((error) => {
+        if (error.message === 'UNAUTHORIZED') {
+          logout();
+        } else {
+          showSnackNotificationPopup({ status: 'FAILED', text: error.message });
+        }
+      });
+  };
+
   return (
     <div className={styles.container}>
       {data ? (
@@ -203,9 +238,19 @@ const Subject = () => {
               <h2>{t('subject.reviews')}</h2>
               <ul className={styles.reviewList}>
                 {reviews &&
-                  reviews.map((review, index) => (
-                    <li key={index} className={styles.reviewItem}>
+                  reviews.map((review) => (
+                    <li key={review.id} className={styles.reviewItem}>
                       <strong>{review.name}:</strong> {review.review}
+                      {review.canDelete && (
+                        <button className={styles.deleteButton} onClick={() => handleDeleteReview(review.id)}>
+                          {t('delete')}
+                        </button>
+                      )}
+                      {review.isApproved === false && (
+                        <button className={styles.approveButton} onClick={() => handleApproveReview(review.id)}>
+                          {t('approve')}
+                        </button>
+                      )}
                     </li>
                   ))}
               </ul>

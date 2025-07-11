@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import styles from './Lecturer.module.css';
 import { useNavigate } from 'react-router-dom';
-import { getLecturer, postLecturer } from '../../Services/common';
+import { deleteLecturer, getLecturer, postLecturer, postLecturerApprove } from '../../Services/common';
 import Loader from '../../Components/loader/Loader';
 import { UserContext } from '../../Services/userContext';
 import { useNotificationPopup } from '../../Services/notificationPopupProvider';
@@ -59,6 +59,34 @@ const Lecturer = () => {
     }
   };
 
+  const handleDeleteReview = (reviewId) => {
+    deleteLecturer(reviewId)
+      .then(() => {
+        setReviews(reviews.filter((review) => review.id !== reviewId));
+      })
+      .catch((error) => {
+        if (error.message === 'UNAUTHORIZED') {
+          logout();
+        } else {
+          showSnackNotificationPopup({ status: 'FAILED', text: error.message });
+        }
+      });
+  };
+
+  const handleApproveReview = (reviewId) => {
+    postLecturerApprove(reviewId)
+      .then(() => {
+        setReviews(reviews.map((review) => (review.id === reviewId ? { ...review, isApproved: true } : review)));
+      })
+      .catch((error) => {
+        if (error.message === 'UNAUTHORIZED') {
+          logout();
+        } else {
+          showSnackNotificationPopup({ status: 'FAILED', text: error.message });
+        }
+      });
+  };
+
   const handleNavigate = (id) => {
     history(`/subject/?id=${id}`);
   };
@@ -101,9 +129,27 @@ const Lecturer = () => {
             <h2>{t('lecturer.reviews')}</h2>
             <ul className={styles.reviewList}>
               {reviews &&
-                reviews.map((review, index) => (
-                  <li key={index} className={styles.reviewItem}>
+                reviews.map((review) => (
+                  <li key={review.id} className={styles.reviewItem}>
                     <strong>{review.name}:</strong> {review.review}
+                    {review.canDelete && (
+                      <button
+                        className={styles.deleteButton}
+                        onClick={() => handleDeleteReview(review.id)}
+                        style={{ marginLeft: '10px' }}
+                      >
+                        {t('delete')}
+                      </button>
+                    )}
+                    {review.isApproved === false && (
+                      <button
+                        className={styles.approveButton}
+                        onClick={() => handleApproveReview(review.id)}
+                        style={{ marginLeft: '10px' }}
+                      >
+                        {t('approve')}
+                      </button>
+                    )}
                   </li>
                 ))}
             </ul>

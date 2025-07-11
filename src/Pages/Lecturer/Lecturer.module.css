@@ -220,3 +220,35 @@
   min-height: 60vh;
   width: 100%;
 }
+
+.deleteButton {
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  margin-left: 10px;
+  transition: background 0.2s;
+}
+
+.deleteButton:hover {
+  background: #a71d2a;
+}
+
+.approveButton {
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  margin-left: 10px;
+  transition: background 0.2s;
+}
+
+.approveButton:hover {
+  background: #1e7e34;
+}

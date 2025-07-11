@@ -4,11 +4,11 @@ import { UserContext } from '../../Services/userContext';
 import { useNotificationPopup } from '../../Services/notificationPopupProvider';
 import {
   getFeed,
-  postApprove,
-  postDelete,
+  postApproveFeed,
+  deleteFeed,
   postFeed,
   postFeedComment,
-  postFeedCommentDelete,
+  deleteFeedComment,
 } from '../../Services/common';
 import Loader from '../../Components/loader/Loader';
 import { useTranslation } from 'react-i18next';
@@ -91,7 +91,7 @@ const Feed = () => {
   };
 
   const handleDeletePost = (postId) => {
-    postDelete(postId)
+    deleteFeed(postId)
       .then(() => {
         setPosts(posts.filter((post) => post.id !== postId));
       })
@@ -105,7 +105,7 @@ const Feed = () => {
   };
 
   const handleApprovePost = (postId) => {
-    postApprove(postId)
+    postApproveFeed(postId)
       .then(() => {
         setPosts(posts.map((post) => (post.id === postId ? { ...post, isApproved: true } : post)));
       })
@@ -119,7 +119,7 @@ const Feed = () => {
   };
 
   const handleDeleteComment = (postId, commentId) => {
-    postFeedCommentDelete(commentId)
+    deleteFeedComment(commentId)
       .then(() => {
         setPosts(
           posts.map((post) =>
@@ -166,13 +166,13 @@ const Feed = () => {
                   <strong>{post.name}</strong>
                   {post.canDelete && (
                     <button className={styles.deleteButton} onClick={() => handleDeletePost(post.id)}>
-                      {t('feed.delete')}
+                      {t('delete')}
                     </button>
                   )}
                   {/* Show approve button if isApproved is false */}
                   {post.isApproved === false && (
                     <button className={styles.approveButton} onClick={() => handleApprovePost(post.id)}>
-                      {t('feed.approve')}
+                      {t('approve')}
                     </button>
                   )}
                 </div>
@@ -187,7 +187,7 @@ const Feed = () => {
                             className={styles.deleteButton}
                             onClick={() => handleDeleteComment(post.id, comment.id)}
                           >
-                            {t('feed.delete')}
+                            {t('delete')}
                           </button>
                         )}
                       </li>

@@ -6,16 +6,20 @@ import {
   GetFile,
   GetLecturer,
   GetSubject,
-  PostApprove,
-  PostDelete,
+  PostApproveFeed,
+  DeleteFeed,
   PostFeed,
   PostFeedComment,
-  PostFeedCommentDelete,
+  DeleteFeedComment,
   PostFile,
-  PostLecuter,
+  PostLecturer,
   PostRefreshToken,
   PostSignIn,
   PostSubject,
+  DeleteSubjectReview,
+  PostSubjectApprove,
+  DeleteLecturer,
+  PostLecturerApprove,
 } from './service';
 
 console.log(import.meta.env);
@@ -334,7 +338,7 @@ export const getLecturer = async (id, retried = false) => {
 export const postLecturer = async (id, text, retried = false) => {
   const accessToken = GetAccessToken();
   if (accessToken) {
-    return await PostLecuter(id, text, accessToken)
+    return await PostLecturer(id, text, accessToken)
       .then((resp) => {
         return resp.data;
       })
@@ -517,17 +521,17 @@ export const postFeed = async (content, retried = false) => {
   }
 };
 
-export const postDelete = async (id, retried = false) => {
+export const deleteFeed = async (id, retried = false) => {
   const accessToken = GetAccessToken();
   if (accessToken) {
-    return await PostDelete(id, accessToken)
+    return await DeleteFeed(id, accessToken)
       .then((resp) => {
         return resp.data;
       })
       .catch(async (error) => {
         if (error.response && error.response.status === 401) {
           if (!retried) {
-            return await retry(postDelete(id))
+            return await retry(deleteFeed(id))
               .then((resp) => {
                 return resp;
               })
@@ -548,17 +552,17 @@ export const postDelete = async (id, retried = false) => {
   }
 };
 
-export const postApprove = async (id, retried = false) => {
+export const postApproveFeed = async (id, retried = false) => {
   const accessToken = GetAccessToken();
   if (accessToken) {
-    return await PostApprove(id, accessToken)
+    return await PostApproveFeed(id, accessToken)
       .then((resp) => {
         return resp.data;
       })
       .catch(async (error) => {
         if (error.response && error.response.status === 401) {
           if (!retried) {
-            return await retry(postApprove(id))
+            return await retry(postApproveFeed(id))
               .then((resp) => {
                 return resp;
               })
@@ -610,17 +614,141 @@ export const postFeedComment = async (id, content, retried = false) => {
   }
 };
 
-export const postFeedCommentDelete = async (id, retried = false) => {
+export const deleteFeedComment = async (id, retried = false) => {
   const accessToken = GetAccessToken();
   if (accessToken) {
-    return await PostFeedCommentDelete(id, accessToken)
+    return await DeleteFeedComment(id, accessToken)
       .then((resp) => {
         return resp.data;
       })
       .catch(async (error) => {
         if (error.response && error.response.status === 401) {
           if (!retried) {
-            return await retry(postFeedCommentDelete(id))
+            return await retry(deleteFeedComment(id))
+              .then((resp) => {
+                return resp;
+              })
+              .catch(() => {
+                throw new Error('UNAUTHORIZED');
+              });
+          } else {
+            throw new Error('UNAUTHORIZED');
+          }
+        } else if (error.response) {
+          throw new Error(error.response.data.message);
+        } else {
+          return false;
+        }
+      });
+  } else {
+    throw new Error('UNAUTHORIZED');
+  }
+};
+
+export const deleteSubjectReview = async (id, retried = false) => {
+  const accessToken = GetAccessToken();
+  if (accessToken) {
+    return await DeleteSubjectReview(id, accessToken)
+      .then((resp) => {
+        return resp.data;
+      })
+      .catch(async (error) => {
+        if (error.response && error.response.status === 401) {
+          if (!retried) {
+            return await retry(deleteSubjectReview(id))
+              .then((resp) => {
+                return resp;
+              })
+              .catch(() => {
+                throw new Error('UNAUTHORIZED');
+              });
+          } else {
+            throw new Error('UNAUTHORIZED');
+          }
+        } else if (error.response) {
+          throw new Error(error.response.data.message);
+        } else {
+          return false;
+        }
+      });
+  } else {
+    throw new Error('UNAUTHORIZED');
+  }
+};
+
+export const postSubjectApprove = async (id, retried = false) => {
+  const accessToken = GetAccessToken();
+  if (accessToken) {
+    return await PostSubjectApprove(id, accessToken)
+      .then((resp) => {
+        return resp.data;
+      })
+      .catch(async (error) => {
+        if (error.response && error.response.status === 401) {
+          if (!retried) {
+            return await retry(postSubjectApprove(id))
+              .then((resp) => {
+                return resp;
+              })
+              .catch(() => {
+                throw new Error('UNAUTHORIZED');
+              });
+          } else {
+            throw new Error('UNAUTHORIZED');
+          }
+        } else if (error.response) {
+          throw new Error(error.response.data.message);
+        } else {
+          return false;
+        }
+      });
+  } else {
+    throw new Error('UNAUTHORIZED');
+  }
+};
+
+export const deleteLecturer = async (id, retried = false) => {
+  const accessToken = GetAccessToken();
+  if (accessToken) {
+    return await DeleteLecturer(id, accessToken)
+      .then((resp) => {
+        return resp.data;
+      })
+      .catch(async (error) => {
+        if (error.response && error.response.status === 401) {
+          if (!retried) {
+            return await retry(deleteLecturer(id))
+              .then((resp) => {
+                return resp;
+              })
+              .catch(() => {
+                throw new Error('UNAUTHORIZED');
+              });
+          } else {
+            throw new Error('UNAUTHORIZED');
+          }
+        } else if (error.response) {
+          throw new Error(error.response.data.message);
+        } else {
+          return false;
+        }
+      });
+  } else {
+    throw new Error('UNAUTHORIZED');
+  }
+};
+
+export const postLecturerApprove = async (id, retried = false) => {
+  const accessToken = GetAccessToken();
+  if (accessToken) {
+    return await PostLecturerApprove(id, accessToken)
+      .then((resp) => {
+        return resp.data;
+      })
+      .catch(async (error) => {
+        if (error.response && error.response.status === 401) {
+          if (!retried) {
+            return await retry(postLecturerApprove(id))
               .then((resp) => {
                 return resp;
               })

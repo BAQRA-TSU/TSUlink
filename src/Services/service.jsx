@@ -45,7 +45,7 @@ export function GetLecturer(id, accessToken) {
   });
 }
 
-export function PostLecuter(id, text, accessToken) {
+export function PostLecturer(id, text, accessToken) {
   return axios.post(
     GetLecturersUrl() + `/review`,
     {
@@ -106,13 +106,13 @@ export function PostFeed(content, accessToken) {
   );
 }
 
-export function PostDelete(id, accessToken) {
+export function DeleteFeed(id, accessToken) {
   return axios.delete(GetFeedUrl() + `/${id}`, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 }
 
-export function PostApprove(id, accessToken) {
+export function PostApproveFeed(id, accessToken) {
   return axios.post(GetFeedUrl() + `/${id}/approve`, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
@@ -130,8 +130,32 @@ export function PostFeedComment(id, content, accessToken) {
   );
 }
 
-export function PostFeedCommentDelete(id, accessToken) {
+export function DeleteFeedComment(id, accessToken) {
   return axios.delete(GetFeedUrl() + `/comments/${id}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+}
+
+export function DeleteSubjectReview(id, accessToken) {
+  return axios.delete(GetSubjectsUrl() + `/review/${id}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+}
+
+export function PostSubjectApprove(id, accessToken) {
+  return axios.post(GetSubjectsUrl() + `/review/${id}/approve`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+}
+
+export function DeleteLecturer(id, accessToken) {
+  return axios.delete(GetSubjectsUrl() + `/review/${id}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+}
+
+export function PostLecturerApprove(id, accessToken) {
+  return axios.post(GetSubjectsUrl() + `/review/${id}/approve`, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 }

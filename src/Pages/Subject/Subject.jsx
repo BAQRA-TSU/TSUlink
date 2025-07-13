@@ -21,6 +21,8 @@ const Subject = () => {
   const [data, setData] = useState();
   const [uploading, setUploading] = useState(false);
   const [downloadingFileId, setDownloadingFileId] = useState(null);
+  const [addingReview, setAddingReview] = useState(false);
+  const [deletingReviewId, setDeletingReviewId] = useState(null);
   const { logout } = useContext(UserContext);
   const { showSnackNotificationPopup } = useNotificationPopup();
 
@@ -57,9 +59,20 @@ const Subject = () => {
 
   const handleAddReview = () => {
     if (newReview.trim()) {
+      setAddingReview(true);
       postSubject(id, newReview)
         .then((res) => {
-          setReviews([...reviews, { name: res.name, review: res.review, canDelete: res.canDelete }]);
+          setReviews([
+            ...reviews,
+            {
+              name: res.name,
+              review: res.review,
+              canDelete: res.canDelete,
+              id: res.id,
+              status: res.status,
+              isApproved: false,
+            },
+          ]);
           setNewReview('');
         })
         .catch((error) => {
@@ -68,6 +81,9 @@ const Subject = () => {
           } else {
             showSnackNotificationPopup({ status: 'FAILED', text: error.message });
           }
+        })
+        .finally(() => {
+          setAddingReview(false);
         });
     }
   };
@@ -138,6 +154,7 @@ const Subject = () => {
   };
 
   const handleDeleteReview = (reviewId) => {
+    setDeletingReviewId(reviewId);
     deleteSubjectReview(reviewId)
       .then(() => {
         setReviews(reviews.filter((review) => review.id !== reviewId));
@@ -148,13 +165,20 @@ const Subject = () => {
         } else {
           showSnackNotificationPopup({ status: 'FAILED', text: error.message });
         }
+      })
+      .finally(() => {
+        setDeletingReviewId(null);
       });
   };
 
   const handleApproveReview = (reviewId) => {
     postSubjectApprove(reviewId)
       .then(() => {
-        setReviews(reviews.map((review) => (review.id === reviewId ? { ...review, isApproved: true } : review)));
+        setReviews(
+          reviews.map((review) =>
+            review.id === reviewId ? { ...review, isApproved: true, status: 'approved' } : review
+          )
+        );
       })
       .catch((error) => {
         if (error.message === 'UNAUTHORIZED') {
@@ -238,18 +262,35 @@ const Subject = () => {
               <ul className={styles.reviewList}>
                 {reviews &&
                   reviews.map((review) => (
-                    <li key={review.id} className={styles.reviewItem}>
-                      <strong>{review.name}:</strong> {review.review}
-                      {review.canDelete && (
-                        <button className={styles.deleteButton} onClick={() => handleDeleteReview(review.id)}>
-                          {t('delete')}
-                        </button>
+                    <li
+                      key={review.id}
+                      className={`${styles.reviewItem} ${
+                        review.status === 'pending' || review.isApproved === false ? styles.pending : ''
+                      }`}
+                    >
+                      <div className={styles.review}>
+                        <strong>{review.name}:</strong> <div className={styles.text}>{review.review}</div>
+                      </div>
+                      {(review.status === 'pending' || review.isApproved === false) && (
+                        <span className={styles.pendingText}>{t('waiting.admin.approval')}</span>
                       )}
-                      {review.isApproved === false && (
-                        <button className={styles.approveButton} onClick={() => handleApproveReview(review.id)}>
-                          {t('approve')}
-                        </button>
-                      )}
+                      <div className={styles.buttons}>
+                        {review.canDelete && (
+                          <button
+                            className={styles.deleteButton}
+                            onClick={() => handleDeleteReview(review.id)}
+                            disabled={deletingReviewId === review.id}
+                          >
+                            {deletingReviewId === review.id && <span className={styles.downloadSpinner}></span>}
+                            {t('delete')}
+                          </button>
+                        )}
+                        {review.isApproved === false && (
+                          <button className={styles.approveButton} onClick={() => handleApproveReview(review.id)}>
+                            {t('approve')}
+                          </button>
+                        )}
+                      </div>
                     </li>
                   ))}
               </ul>
@@ -260,8 +301,9 @@ const Subject = () => {
                   onChange={(e) => setNewReview(e.target.value)}
                   placeholder={t('subject.write.review')}
                 />
-                <button className={styles.addButton} onClick={handleAddReview}>
-                  {t('subject.add.review')}
+                <button className={styles.addButton} onClick={handleAddReview} disabled={addingReview}>
+                  {addingReview && <span className={styles.downloadSpinner}></span>}
+                  {addingReview ? t('adding.review') : t('add.review')}
                 </button>
               </div>
             </div>

@@ -77,6 +77,10 @@
   width: 100%;
 }
 
+.postItem.pending > :not(.approveButton):not(.deleteButton):not(.postHeader) {
+  opacity: 0.5;
+}
+
 .postHeader {
   font-size: 17px;
   font-weight: bold;
@@ -172,4 +176,30 @@
 
 .approveButton:hover {
   background: #1e7e34;
+}
+
+.pendingText {
+  display: block;
+  font-size: 13px;
+  color: #ffc107;
+  margin-top: 4px;
+  font-style: italic;
+}
+
+.downloadSpinner {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border: 2px solid #7ecbff;
+  border-top: 2px solid #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

@@ -19,6 +19,11 @@ const Feed = () => {
   const [newPost, setNewPost] = useState('');
   const [commentInputs, setCommentInputs] = useState({});
   const [loading, setLoading] = useState(true);
+  const [addingPost, setAddingPost] = useState(false);
+  const [deletingPostId, setDeletingPostId] = useState(null);
+  const [addingCommentId, setAddingCommentId] = useState(null);
+  const [deletingCommentId, setDeletingCommentId] = useState(null);
+  const [approvingPostId, setApprovingPostId] = useState(null);
   const { logout } = useContext(UserContext);
   const { showSnackNotificationPopup } = useNotificationPopup();
 
@@ -42,11 +47,15 @@ const Feed = () => {
 
   const handleAddPost = () => {
     if (newPost.trim()) {
+      setAddingPost(true);
       postFeed(newPost)
         .then((res) => {
           console.log(res);
           setNewPost('');
-          setPosts([{ id: res.id, name: res.name, text: res.text, comments: [] }, ...posts]);
+          setPosts([
+            { id: res.id, name: res.name, text: res.text, comments: [], canDelete: res.canDelete, status: res.status, isApproved: false },
+            ...posts,
+          ]);
         })
         .catch((error) => {
           if (error.message === 'UNAUTHORIZED') {
@@ -54,6 +63,9 @@ const Feed = () => {
           } else {
             showSnackNotificationPopup({ status: 'FAILED', text: error.message });
           }
+        })
+        .finally(() => {
+          setAddingPost(false);
         });
     }
   };
@@ -65,6 +77,7 @@ const Feed = () => {
   const handleAddComment = (postId) => {
     const commentText = commentInputs[postId];
     if (commentText && commentText.trim()) {
+      setAddingCommentId(postId);
       postFeedComment(postId, commentText)
         .then((res) => {
           console.log(res);
@@ -89,11 +102,15 @@ const Feed = () => {
           } else {
             showSnackNotificationPopup({ status: 'FAILED', text: error.message });
           }
+        })
+        .finally(() => {
+          setAddingCommentId(null);
         });
     }
   };
 
   const handleDeletePost = (postId) => {
+    setDeletingPostId(postId);
     deleteFeed(postId)
       .then(() => {
         setPosts(posts.filter((post) => post.id !== postId));
@@ -104,13 +121,17 @@ const Feed = () => {
         } else {
           showSnackNotificationPopup({ status: 'FAILED', text: error.message });
         }
+      })
+      .finally(() => {
+        setDeletingPostId(null);
       });
   };
 
   const handleApprovePost = (postId) => {
+    setApprovingPostId(postId);
     postApproveFeed(postId)
       .then(() => {
-        setPosts(posts.map((post) => (post.id === postId ? { ...post, isApproved: true } : post)));
+        setPosts(posts.map((post) => (post.id === postId ? { ...post, isApproved: true, status: 'approved' } : post)));
       })
       .catch((error) => {
         if (error.message === 'UNAUTHORIZED') {
@@ -118,10 +139,14 @@ const Feed = () => {
         } else {
           showSnackNotificationPopup({ status: 'FAILED', text: error.message });
         }
+      })
+      .finally(() => {
+        setApprovingPostId(null);
       });
   };
 
   const handleDeleteComment = (postId, commentId) => {
+    setDeletingCommentId(commentId);
     deleteFeedComment(commentId)
       .then(() => {
         setPosts(
@@ -141,6 +166,9 @@ const Feed = () => {
         } else {
           showSnackNotificationPopup({ status: 'FAILED', text: error.message });
         }
+      })
+      .finally(() => {
+        setDeletingCommentId(null);
       });
   };
 
@@ -153,8 +181,9 @@ const Feed = () => {
           onChange={(e) => setNewPost(e.target.value)}
           placeholder={t('feed.write.something')}
         />
-        <button className={styles.addButton} onClick={handleAddPost}>
-          {t('feed.post')}
+        <button className={styles.addButton} onClick={handleAddPost} disabled={addingPost}>
+          {addingPost && <span className={styles.downloadSpinner}></span>}
+          {addingPost ? t('feed.posting') : t('feed.post')}
         </button>
       </div>
       <div className={styles.postsSection}>
@@ -164,22 +193,41 @@ const Feed = () => {
           <>
             {posts.length === 0 && <div className={styles.placeholder}>{t('feed.no.posts')}</div>}
             {posts.map((post) => (
-              <div key={post.id} className={styles.postItem}>
+              <div
+                key={post.id}
+                className={`${styles.postItem} ${
+                  post.status === 'pending' || post.isApproved === false ? styles.pending : ''
+                }`}
+              >
                 <div className={styles.postHeader}>
                   <strong>{post.name}</strong>
                   {post.canDelete && (
-                    <button className={styles.deleteButton} onClick={() => handleDeletePost(post.id)}>
+                    <button
+                      className={styles.deleteButton}
+                      onClick={() => handleDeletePost(post.id)}
+                      disabled={deletingPostId === post.id}
+                    >
+                      {deletingPostId === post.id && <span className={styles.downloadSpinner}></span>}
                       {t('delete')}
                     </button>
                   )}
-                  {/* Show approve button if isApproved is false */}
                   {post.isApproved === false && (
-                    <button className={styles.approveButton} onClick={() => handleApprovePost(post.id)}>
+                    <button
+                      className={styles.approveButton}
+                      onClick={() => handleApprovePost(post.id)}
+                      disabled={approvingPostId === post.id}
+                    >
+                      {approvingPostId === post.id && <span className={styles.downloadSpinner}></span>}
                       {t('approve')}
                     </button>
                   )}
                 </div>
-                <div className={styles.postText}>{post.text}</div>
+                <div className={styles.postText}>
+                  {post.text}
+                  {(post.status === 'pending' || post.isApproved === false) && (
+                    <div className={styles.pendingText}>{t('waiting.admin.approval')}</div>
+                  )}
+                </div>
                 <div className={styles.commentsSection}>
                   <ul className={styles.commentList}>
                     {post.comments.map((comment) => (
@@ -189,7 +237,9 @@ const Feed = () => {
                           <button
                             className={styles.deleteButton}
                             onClick={() => handleDeleteComment(post.id, comment.id)}
+                            disabled={deletingCommentId === comment.id}
                           >
+                            {deletingCommentId === comment.id && <span className={styles.downloadSpinner}></span>}
                             {t('delete')}
                           </button>
                         )}
@@ -204,7 +254,12 @@ const Feed = () => {
                       onChange={(e) => handleCommentInput(post.id, e.target.value)}
                       placeholder={t('feed.write.comment')}
                     />
-                    <button className={styles.addCommentButton} onClick={() => handleAddComment(post.id)}>
+                    <button
+                      className={styles.addCommentButton}
+                      onClick={() => handleAddComment(post.id)}
+                      disabled={addingCommentId === post.id}
+                    >
+                      {addingCommentId === post.id && <span className={styles.downloadSpinner}></span>}
                       {t('feed.comment')}
                     </button>
                   </div>

@@ -113,7 +113,7 @@ export function DeleteFeed(id, accessToken) {
 }
 
 export function PostApproveFeed(id, accessToken) {
-  return axios.post(GetFeedUrl() + `/${id}/approve`, {
+   return axios.post(GetFeedUrl() + `/${id}/approve`, undefined, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 }
@@ -143,19 +143,19 @@ export function DeleteSubjectReview(id, accessToken) {
 }
 
 export function PostSubjectApprove(id, accessToken) {
-  return axios.post(GetSubjectsUrl() + `/review/${id}/approve`, {
+  return axios.post(GetSubjectsUrl() + `/review/${id}/approve`, undefined, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 }
 
 export function DeleteLecturer(id, accessToken) {
-  return axios.delete(GetSubjectsUrl() + `/review/${id}`, {
+  return axios.delete(GetLecturersUrl() + `/review/${id}`, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 }
 
 export function PostLecturerApprove(id, accessToken) {
-  return axios.post(GetSubjectsUrl() + `/review/${id}/approve`, {
+  return axios.post(GetLecturersUrl() + `/review/${id}/approve`, undefined, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 }

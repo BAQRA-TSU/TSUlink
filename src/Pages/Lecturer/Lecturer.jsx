@@ -12,6 +12,9 @@ const Lecturer = () => {
   const [newReview, setNewReview] = useState('');
   const [reviews, setReviews] = useState();
   const [data, setData] = useState();
+  const [deletingReviewId, setDeletingReviewId] = useState(null);
+  const [addingReview, setAddingReview] = useState(false);
+  const [approvingReviewId, setApprovingReviewId] = useState(null);
   const history = useNavigate();
   const { logout } = useContext(UserContext);
   const { showSnackNotificationPopup } = useNotificationPopup();
@@ -43,10 +46,21 @@ const Lecturer = () => {
 
   const handleAddReview = () => {
     if (newReview.trim()) {
+      setAddingReview(true);
       postLecturer(id, newReview)
         .then((res) => {
           console.log(res);
-          setReviews([...reviews, { name: res.name, review: res.review, canDelete: res.canDelete }]);
+          setReviews([
+            ...reviews,
+            {
+              name: res.name,
+              review: res.review,
+              canDelete: res.canDelete,
+              id: res.id,
+              status: res.status,
+              isApproved: false,
+            },
+          ]);
           setNewReview('');
         })
         .catch((error) => {
@@ -55,11 +69,15 @@ const Lecturer = () => {
           } else {
             showSnackNotificationPopup({ status: 'FAILED', text: error.message });
           }
+        })
+        .finally(() => {
+          setAddingReview(false);
         });
     }
   };
 
   const handleDeleteReview = (reviewId) => {
+    setDeletingReviewId(reviewId);
     deleteLecturer(reviewId)
       .then(() => {
         setReviews(reviews.filter((review) => review.id !== reviewId));
@@ -70,13 +88,21 @@ const Lecturer = () => {
         } else {
           showSnackNotificationPopup({ status: 'FAILED', text: error.message });
         }
+      })
+      .finally(() => {
+        setDeletingReviewId(null);
       });
   };
 
   const handleApproveReview = (reviewId) => {
+    setApprovingReviewId(reviewId);
     postLecturerApprove(reviewId)
       .then(() => {
-        setReviews(reviews.map((review) => (review.id === reviewId ? { ...review, isApproved: true } : review)));
+        setReviews(
+          reviews.map((review) =>
+            review.id === reviewId ? { ...review, isApproved: true, status: 'approved' } : review
+          )
+        );
       })
       .catch((error) => {
         if (error.message === 'UNAUTHORIZED') {
@@ -84,6 +110,9 @@ const Lecturer = () => {
         } else {
           showSnackNotificationPopup({ status: 'FAILED', text: error.message });
         }
+      })
+      .finally(() => {
+        setApprovingReviewId(null);
       });
   };
 
@@ -129,29 +158,39 @@ const Lecturer = () => {
             <h2>{t('lecturer.reviews')}</h2>
             <ul className={styles.reviewList}>
               {reviews &&
-                reviews.map((review) => (
-                  <li key={review.id} className={styles.reviewItem}>
-                    <strong>{review.name}:</strong> {review.review}
-                    {review.canDelete && (
-                      <button
-                        className={styles.deleteButton}
-                        onClick={() => handleDeleteReview(review.id)}
-                        style={{ marginLeft: '10px' }}
-                      >
-                        {t('delete')}
-                      </button>
-                    )}
-                    {review.isApproved === false && (
-                      <button
-                        className={styles.approveButton}
-                        onClick={() => handleApproveReview(review.id)}
-                        style={{ marginLeft: '10px' }}
-                      >
-                        {t('approve')}
-                      </button>
-                    )}
-                  </li>
-                ))}
+                reviews.map((review) => {
+                  const isPending = review.status === 'pending' || review.isApproved === false;
+                  return (
+                    <li key={review.id} className={`${styles.reviewItem} ${isPending ? styles.pending : ''}`}>
+                      <div className={styles.review}>
+                        <strong>{review.name}:</strong> {review.review}
+                      </div>
+                      {isPending && <span className={styles.pendingText}>{t('waiting.admin.approval')}</span>}
+                      <div className={styles.buttons}>
+                        {review.canDelete && (
+                          <button
+                            className={styles.deleteButton}
+                            onClick={() => handleDeleteReview(review.id)}
+                            disabled={deletingReviewId === review.id}
+                          >
+                            {deletingReviewId === review.id && <span className={styles.downloadSpinner}></span>}
+                            {t('delete')}
+                          </button>
+                        )}
+                        {review.isApproved === false && (
+                          <button
+                            className={styles.approveButton}
+                            onClick={() => handleApproveReview(review.id)}
+                            disabled={approvingReviewId === review.id}
+                          >
+                            {approvingReviewId === review.id && <span className={styles.downloadSpinner}></span>}
+                            {t('approve')}
+                          </button>
+                        )}
+                      </div>
+                    </li>
+                  );
+                })}
             </ul>
             <div className={styles.newReview}>
               <textarea
@@ -160,8 +199,9 @@ const Lecturer = () => {
                 onChange={(e) => setNewReview(e.target.value)}
                 placeholder={t('lecturer.write.review')}
               />
-              <button className={styles.addButton} onClick={handleAddReview}>
-                {t('lecturer.add.review')}
+              <button className={styles.addButton} onClick={handleAddReview} disabled={addingReview}>
+                {addingReview && <span className={styles.downloadSpinner}></span>}
+                {addingReview ? t('adding.review') : t('add.review')}
               </button>
             </div>
           </div>

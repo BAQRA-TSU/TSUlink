@@ -9,6 +9,8 @@
   "must.be.longer.then.5": "Must be longer than 5 characters",
   "username.required": "Username is required",
   "firstName.required": "First Name is required",
+  "name.firstName": "First Name",
+  "name.lastName": "Last Name",
   "lastName.required": "Last Name is required",
   "email.required": "Email is required",
   "email.invalid": "Email is invalid",

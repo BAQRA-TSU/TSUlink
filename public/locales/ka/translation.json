@@ -10,6 +10,8 @@
   "username.required": "მომხმარებლის სახელი აუცილებელია",
   "firstName.required": "სახელი აუცილებელია",
   "lastName.required": "გვარი აუცილებელია",
+  "name.firstName": "სახელი",
+  "name.lastName": "გვარი",
   "email.required": "ელფოსტა აუცილებელია",
   "email.invalid": "ელფოსტა არასწორია",
   "password.required": "პაროლი აუცილებელია",

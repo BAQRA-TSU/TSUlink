@@ -10,6 +10,8 @@
   "username.required": "Имя пользователя обязательно",
   "firstName.required": "Имя обязательно",
   "lastName.required": "Фамилия обязательна",
+  "name.firstName": "Имя",
+  "name.lastName": "Фамилия",
   "email.required": "Электронная почта обязательна",
   "email.invalid": "Электронная почта неверна",
   "password.required": "Пароль обязателен",

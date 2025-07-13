@@ -53,7 +53,15 @@ const Feed = () => {
           console.log(res);
           setNewPost('');
           setPosts([
-            { id: res.id, name: res.name, text: res.text, comments: [], canDelete: res.canDelete, status: res.status, isApproved: false },
+            {
+              id: res.id,
+              name: res.name,
+              text: res.text,
+              comments: [],
+              canDelete: res.canDelete,
+              status: res.status,
+              isApproved: res.isApproved,
+            },
             ...posts,
           ]);
         })

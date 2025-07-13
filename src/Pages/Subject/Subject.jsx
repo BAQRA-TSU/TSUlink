@@ -70,7 +70,7 @@ const Subject = () => {
               canDelete: res.canDelete,
               id: res.id,
               status: res.status,
-              isApproved: false,
+              isApproved: res.isApproved,
             },
           ]);
           setNewReview('');
